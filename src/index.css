@@ -6,7 +6,8 @@
 :root {
     background-color: rgb(20, 20, 20);
     --terminal-color: #09d602;
-    font-family: monospace;
+    --terminal-font: monospace;
     --terminal-font-size: 16px;
+    font-family: var(--terminal-font);
     font-size: var(--terminal-font-size);
 }
