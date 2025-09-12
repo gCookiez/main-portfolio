@@ -1,0 +1,6 @@
+.input-terminal, .input-terminal:active{
+    background-color: rgba(0,0,0,0);
+    border: 0;
+    color: var(--terminal-color);
+    font-size: var(--terminal-font-size);
+}

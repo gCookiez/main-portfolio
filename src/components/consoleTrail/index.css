@@ -1,0 +1,7 @@
+.history-area {
+    display:flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    height: 95%;
+    width: 100%;
+}
