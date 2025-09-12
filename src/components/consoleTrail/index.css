@@ -1,6 +1,6 @@
 .history-area {
     display:flex;
-    flex-direction: column;
+    flex-direction:column-reverse;
     flex-wrap: wrap;
     height: 95%;
     width: 100%;

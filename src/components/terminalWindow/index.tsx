@@ -32,7 +32,7 @@ export const Terminal = () => {
                 <TerminalInput onKeyDown={() => { 
                     addHistory((h) => {
                         const item = AppendToHistory(document!.querySelector('.input-terminal')!.value as String);
-                        return [...h, item];
+                        return [item, ...h];
 
                     })}}> </TerminalInput>
             </TerminalContainer>
