@@ -1,7 +1,7 @@
 .history-area {
     display:flex;
     flex-direction:column-reverse;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     height: 95%;
     width: 100%;
 }

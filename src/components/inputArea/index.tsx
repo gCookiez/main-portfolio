@@ -10,9 +10,10 @@ export const TerminalInput = (props: any) => {
     }
 
     return (
-        <>
-            <input className="input-terminal" type="text" onKeyDown={handleKeyDown} />
-        </>
+        <div className="input-container" style={{display:'flex', gap: '10px'}}>
+            <span className="starting-input"> &gt; </span>
+            <input className="input-terminal" type='text' onKeyDown={handleKeyDown} />
+        </div>
     )
 }
 

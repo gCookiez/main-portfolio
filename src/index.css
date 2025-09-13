@@ -10,4 +10,5 @@
     --terminal-font-size: 16px;
     font-family: var(--terminal-font);
     font-size: var(--terminal-font-size);
+    color: var(--terminal-color);
 }

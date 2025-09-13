@@ -2,5 +2,5 @@
     width: 800px;
     height: 800px;
     border: 2px solid var(--terminal-color);
-    
+    overflow: hidden;
 }

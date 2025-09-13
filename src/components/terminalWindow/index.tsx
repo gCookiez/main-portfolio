@@ -23,6 +23,7 @@ export const Terminal = () => {
         document!.querySelector('.input-terminal')!.value = null;
         console.log(holdhistory);
     }, [holdhistory])
+
     return (
         <>
             <TerminalContainer>
@@ -30,7 +31,7 @@ export const Terminal = () => {
                     {holdhistory.map((i) => (i))}
                 </ConsoleTrail>
                 <TerminalInput onKeyDown={() => { 
-                    addHistory((h) => {
+                    addHistory((h:any):any => {
                         const item = AppendToHistory(document!.querySelector('.input-terminal')!.value as String);
                         return [item, ...h];
 
