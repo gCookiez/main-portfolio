@@ -1,16 +1,14 @@
-import type { ReactNode } from "react";
-import './index.css'
-
-export const SpringContainer = (props: any): ReactNode => {
+import './index.css';
+export const Container = (props: any): any => {
     const {children} = props;
-    
+
     return (
-        <div className={'springContainer'}>
-            <div className={'springInnerContainer'}> 
-                {children}
-            </div>
+        <div className="site-container">
+            {children}
         </div>
     )
-}
 
-export * from "./"
+
+} 
+
+export * from './'

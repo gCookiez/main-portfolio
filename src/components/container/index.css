@@ -1,17 +1,9 @@
-.springContainer {
-    width: 100%;
-    height: 100vh;
+.site-container {
+    width: 100vw;
     display: flex;
-    align-items: center;
-    justify-items: center;
-    flex-direction: row;
-    /* background-color: aquamarine; */
-}
-
-.springInnerContainer {
-    width: 90%;
-    height: 100%;
+    justify-content: center;
     margin-left: auto;
     margin-right: auto;
-    /* background-color: brown; */
+    margin-top: 20px;
 }
+

@@ -1,0 +1,23 @@
+.terminal-style {
+    width: 800px;
+    height: 85vh;
+    max-width: 800px;
+    max-height: 800px;
+    padding: 10px;
+    border: 2px solid var(--terminal-color);
+    overflow: hidden;
+    display: flex;
+    justify-items: flex-start;
+    flex-direction: column;
+    box-sizing: border-box;
+    justify-content: flex-end;
+}
+
+
+@media only screen and (max-width: 900px) {
+    .terminal-style { 
+        width: 90%;
+        height: 90vh;
+        min-width: 450px;
+    }
+}

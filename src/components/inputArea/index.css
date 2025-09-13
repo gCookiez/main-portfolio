@@ -1,0 +1,48 @@
+
+.input-container {
+    display: flex;
+    align-items: flex-end;
+    position: relative;
+    max-height: 40vh;
+    overflow-y: auto;
+    width: 100%;
+}
+
+.input-terminal, .input-terminal:active{
+    background-color: rgba(0,0,0,0);
+    border: 0;
+    outline: none;
+    color: var(--terminal-color);
+    font-size: var(--terminal-font-size);
+    font-family: var(--terminal-font);
+    width: 100%;
+    max-width: 100%;
+    resize: none;
+    overflow: none;
+    position:absolute;
+    left:-99999px;
+    opacity:0;
+    
+}
+
+.starting-input {
+    align-items: center;
+}
+
+.input-sub {
+    max-width: 100%;
+    flex: none;
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+}
+
+.char-disp {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    display: block;
+    width:100%;
+    align-items: center;
+    line-height: 1.2em;
+    margin: 0;
+}

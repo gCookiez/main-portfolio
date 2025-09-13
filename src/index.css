@@ -3,7 +3,12 @@
     padding: 0;
 }
 
-body {
-    background-color: black;
-    font-family: "Consolas", "Jetbrains Mono";
+:root {
+    background-color: rgb(20, 20, 20);
+    --terminal-color: #09d602;
+    --terminal-font: monospace;
+    --terminal-font-size: 16px;
+    font-family: var(--terminal-font);
+    font-size: var(--terminal-font-size);
+    color: var(--terminal-color);
 }
