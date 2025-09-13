@@ -7,9 +7,13 @@ import './index.css'
 
 export const TerminalContainer = (props: any) => {
     const { children } = props;
+    function maintainFocus() {
+        const input = document.querySelector('input.input-terminal');
+        input.focus();
+    }
 
     return (
-        <div className='terminal-style'>
+        <div className='terminal-style' onClick={()=> {maintainFocus()}}>
             {children}
         </div>
 
@@ -19,6 +23,14 @@ export const TerminalContainer = (props: any) => {
 export const Terminal = () => {
     const [holdhistory, addHistory] = useState([]);
     
+    useEffect(() => {
+        const input = document.querySelector('input.input-terminal');
+        if (input) {
+            input.focus();
+        }
+    }, [])
+
+
     useEffect(() => {
         const changeEvent = new Event('change', { bubbles: true }); 
         const input = document!.querySelector('input.input-terminal')
