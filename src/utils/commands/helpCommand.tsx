@@ -1,5 +1,6 @@
 import { AppendToHistory } from "../appendToHistory";
 
+
 export const CommandList = (): any => {
     return (
         <div>
@@ -8,6 +9,17 @@ export const CommandList = (): any => {
             <div> linkedin -- Displays user profile from linkedin </div>
             <div> github -- Displays user profile from github </div>
             <div> help -- Displays this exact page </div>
+            <div> version -- Displays version number </div>
+            <div>&nbsp;</div>
+        </div>
+    );
+}
+export const Version = (): any => {
+    return (
+        <div>
+            <div>&nbsp;</div>
+            <div> Mock Terminal v{__APP_VERSION__} </div>
+            <div> Developed by Marcus Gajo</div>
             <div>&nbsp;</div>
         </div>
     );

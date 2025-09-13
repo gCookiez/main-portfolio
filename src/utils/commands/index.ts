@@ -1,5 +1,5 @@
 import { AppendToHistory } from '../appendToHistory';
-import {CommandList, SetupUrl} from './helpCommand.tsx'
+import {CommandList, SetupUrl, Version} from './helpCommand.tsx'
 
 export const textparser = (text: string): string[] => {
 	const items = text.split(' ');
@@ -22,6 +22,10 @@ export const commandParser = (text: string[]): any => {
 
 	if (rootProgram === "help") {
 		return AppendToHistory( CommandList() )
+	}
+
+	if (rootProgram === "version") {
+		return AppendToHistory( Version() );
 	}
 
 
