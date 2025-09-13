@@ -3,7 +3,7 @@ export const ConsoleTrail = (props: any) => {
     const {children} = props;
     return (
         <div className="history-area"> 
-            {children};
+            {children}
         </div>
     )
 }

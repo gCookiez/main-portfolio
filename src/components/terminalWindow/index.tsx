@@ -1,4 +1,4 @@
-import { TerminalInput } from "../inputArea"
+import {TextDisplay } from "../inputArea"
 import { ConsoleTrail } from "../consoleTrail"
 import { AppendToHistory } from "../../utils/appendToHistory"
 import { useState, useEffect } from "react" 
@@ -20,22 +20,26 @@ export const Terminal = () => {
     const [holdhistory, addHistory] = useState([]);
     
     useEffect(() => {
-        document!.querySelector('.input-terminal')!.value = null;
-        console.log(holdhistory);
+        const changeEvent = new Event('change', { bubbles: true }); 
+        const input = document!.querySelector('input.input-terminal')
+        input!.value = null;
+        input!.dispatchEvent(changeEvent);
     }, [holdhistory])
 
     return (
         <>
             <TerminalContainer>
                 <ConsoleTrail>
-                    {holdhistory.map((i) => (i))}
+                    {holdhistory.length != 0 ? holdhistory.map((i) => (i)) : null}
                 </ConsoleTrail>
-                <TerminalInput onKeyDown={() => { 
+                <TextDisplay onKeyDown={() => { 
                     addHistory((h:any):any => {
                         const item = AppendToHistory(document!.querySelector('.input-terminal')!.value as String);
                         return [item, ...h];
 
-                    })}}> </TerminalInput>
+                    })}}>
+                    
+                    </TextDisplay>
             </TerminalContainer>
         </>
 

@@ -1,6 +1,13 @@
 .terminal-style {
+    min-width:0;
     width: 800px;
     height: 800px;
+    padding: 10px;
     border: 2px solid var(--terminal-color);
     overflow: hidden;
+    display: flex;
+    justify-items: flex-start;
+    flex-direction: column;
+    box-sizing: border-box;
+    justify-content: flex-end;
 }
