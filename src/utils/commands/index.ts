@@ -28,8 +28,10 @@ export const commandParser = (text: string[]): any => {
 		return AppendToHistory( Version() );
 	}
 
+	let error = Boolean(text[0].trim()) ? rootProgram.length <= 20 ? text[0] : `${rootProgram.substring(0, 20)}...` : 'EMPTY_STRING';
+	// ${rootProgram.length <= 20 ? text : rootProgram.length <= 0 ? 'empty' : `${rootProgram.substring(0, 20)}...`} is not a known command`}
 
-	return AppendToHistory(`Error: ${rootProgram.length <= 20 ? text : `${rootProgram.substring(0, 20)}...`} is not a known command`, 'error');
+	return AppendToHistory(`Error: ${error} is not a known command` , 'error');
 }
 
 export const initCommand = (text: string):any => {
