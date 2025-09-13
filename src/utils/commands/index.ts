@@ -29,7 +29,6 @@ export const commandParser = (text: string[]): any => {
 	}
 
 	let error = Boolean(text[0].trim()) ? rootProgram.length <= 20 ? text[0] : `${rootProgram.substring(0, 20)}...` : 'EMPTY_STRING';
-	// ${rootProgram.length <= 20 ? text : rootProgram.length <= 0 ? 'empty' : `${rootProgram.substring(0, 20)}...`} is not a known command`}
 
 	return AppendToHistory(`Error: ${error} is not a known command` , 'error');
 }
