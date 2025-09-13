@@ -1,7 +1,6 @@
 import { useRef, useEffect, useState, type RefObject } from 'react';
 import {initCommand } from '../../utils/commands';
 import './index.css'
-import { getInput } from '../../utils/getInput';
 export const TerminalInput = (props: any) => {
     const {addToHistory, onKeyDown, updateBuffer, children, ref} = props
 
