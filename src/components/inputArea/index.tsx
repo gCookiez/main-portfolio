@@ -1,6 +1,7 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, type RefObject } from 'react';
 import {initCommand } from '../../utils/commands';
 import './index.css'
+import { getInput } from '../../utils/getInput';
 export const TerminalInput = (props: any) => {
     const {addToHistory, onKeyDown, updateBuffer, children, ref} = props
 
@@ -12,35 +13,41 @@ export const TerminalInput = (props: any) => {
             onKeyDown();
             if (typeof addToHistory == 'function')
             addToHistory(initCommand(value));
-
+            ref.current!.value = ""; // clear after enter
+            updateBuffer("");
+            return;
             
         }
-        else {
-            updateBuffer();
-        }
+        
+    }
+
+    function handleChange(event: any) {
+        updateBuffer(event.target.value);
     }
 
     return (
         <div className="input-container">
-            {/* <span className="starting-input">marcus@main-portfolio&gt;&nbsp;</span> */}
-            <input ref={ref} onChange={()=>{updateBuffer();}} style={{position:'absolute', left:'-99999px', opacity:0}} className="input-terminal" type='text' onKeyDown={handleKeyDown} />
+            <input ref={ref} style={{position:'absolute', left:'-99999px', opacity:0}} className="input-terminal" type='text' onKeyDown={handleKeyDown} onChange={handleChange} />
              {children}
         </div>
     )
 }
 
 export const TextDisplay = (props: any) => {
-    const inputRef = useRef<HTMLInputElement>(null);
+    const inputRef : RefObject<HTMLInputElement | null> = useRef<HTMLInputElement>
+    (null);
+
+    const {onKeyDown, addToHistory} = props;
+    const [buffer, updateBuffer] = useState<String|null>(null);
 
     useEffect(() => {
         inputRef.current?.focus();
     }, [])
-    const {onKeyDown, addToHistory} = props;
-    const [buffer, updateBuffer] = useState()
+    
 
     return (
         <div className='input-sub'>
-            <TerminalInput addToHistory={(e:any) => {addToHistory(e)}} ref={inputRef} updateBuffer={() => {updateBuffer(inputRef.current?.value)}} onKeyDown={() => {onKeyDown();}}>
+            <TerminalInput addToHistory={(e:any) => {addToHistory(e)}} ref={inputRef}  updateBuffer={(e: String) => {updateBuffer(e)}} onKeyDown={() => {onKeyDown()}}>
                 <div className="char-disp"> <span style={{whiteSpace:'nowrap'}}>marcus@main-portfolio&gt;&nbsp;</span>{buffer}</div>
             </TerminalInput>
             
