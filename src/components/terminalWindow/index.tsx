@@ -23,9 +23,33 @@ export const TerminalContainer = (props: any) => {
 
 export const Terminal = () => {
     const [holdhistory, addHistory] = useState([]);
+    const [hiddenhistory, appendHistory] = useState([]);
+    const [pos, changePos] = useState(-1);
+    
+    function recall(move: string) {
+
+        if (move == 'reset') {
+            changePos(-1);
+        }
+
+        if (hiddenhistory.length == 0) {
+            return;
+        }
+
+        if (move == '-' && !((hiddenhistory.length - 1) < pos + 1 )) {
+            changePos((e:any) => e + 1);
+        }
+
+        if (move == '+' && !(-1 >= pos)) {
+            changePos((e:any) => e - 1);
+        }
+
+    }
+
     
     useEffect(() => {
         if (holdhistory.length === 0) {
+
             setTimeout(() => {
                 addHistory((): any => [AppendToHistory(Version())])
             }, 500)      
@@ -37,6 +61,11 @@ export const Terminal = () => {
         }
     }, [])
 
+    useEffect(() => {
+        console.log(hiddenhistory[pos])
+        console.log(pos)
+    }, [pos])
+
 
     return (
         <>
@@ -44,7 +73,12 @@ export const Terminal = () => {
                 <ConsoleTrail>
                     {holdhistory.map((i) => (i))}
                 </ConsoleTrail>
-                <TextDisplay addToHistory={(e: any):any => {addHistory((h:any):any => {return [e, ...h]})}} onKeyDown={() => { 
+                <TextDisplay 
+                    recall={(e:string):any => recall(e)}
+                    pos={pos >= 0 ? hiddenhistory[pos] : null}
+                    addToHistory={(e: any):any => {addHistory((h:any):any => {return [e, ...h]})}} 
+                    invokeHistory={(e: any): any => {appendHistory((h:any):any => {return [e, ...h]})}} 
+                    onKeyDown={() => { 
                     addHistory((h:any):any => {
                         const item = AppendToHistory(getInput().value as String);
                         return [item, ...h];
