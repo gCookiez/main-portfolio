@@ -44,7 +44,7 @@ export const Terminal = () => {
                 <ConsoleTrail>
                     {holdhistory.length != 0 ? holdhistory.map((i) => (i)) : null}
                 </ConsoleTrail>
-                <TextDisplay onKeyDown={() => { 
+                <TextDisplay addToHistory={(e: any):any => {addHistory((h:any):any => {return [e, ...h]})}} onKeyDown={() => { 
                     addHistory((h:any):any => {
                         const item = AppendToHistory(document!.querySelector('.input-terminal')!.value as String);
                         return [item, ...h];

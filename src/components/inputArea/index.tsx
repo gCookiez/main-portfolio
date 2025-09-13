@@ -1,13 +1,18 @@
 import { useRef, useEffect, useState } from 'react';
+import {initCommand } from '../../utils/commands';
 import './index.css'
 export const TerminalInput = (props: any) => {
-    const {onKeyDown, updateBuffer, children, ref} = props
+    const {addToHistory, onKeyDown, updateBuffer, children, ref} = props
 
 
     function handleKeyDown(event: any) {
 
         if (event.key === 'Enter') {
+            const value = ref.current?.value;
             onKeyDown();
+            if (typeof addToHistory == 'function')
+            addToHistory(initCommand(value));
+
             
         }
         else {
@@ -30,12 +35,12 @@ export const TextDisplay = (props: any) => {
     useEffect(() => {
         inputRef.current?.focus();
     }, [])
-    const {onKeyDown,} = props;
+    const {onKeyDown, addToHistory} = props;
     const [buffer, updateBuffer] = useState()
 
     return (
         <div className='input-sub'>
-            <TerminalInput ref={inputRef} updateBuffer={() => {updateBuffer(inputRef.current?.value)}} onKeyDown={() => {onKeyDown();}}>
+            <TerminalInput addToHistory={(e:any) => {addToHistory(e)}} ref={inputRef} updateBuffer={() => {updateBuffer(inputRef.current?.value)}} onKeyDown={() => {onKeyDown();}}>
                 <div className="char-disp"> <span style={{whiteSpace:'nowrap'}}>marcus@main-portfolio&gt;&nbsp;</span>{buffer}</div>
             </TerminalInput>
             

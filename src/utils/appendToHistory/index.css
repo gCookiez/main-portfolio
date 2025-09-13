@@ -2,3 +2,17 @@
     color: var(--terminal-color);
     word-wrap: anywhere;
 }
+
+
+
+.console-trail > a:link, .console-trail > a:visited, .console-trail > a:hover {
+    color: var(--terminal-color);
+}
+
+.console-trail > a:link{
+    text-decoration: none;
+}
+
+.console-trail > a:hover{
+    text-decoration: underline;
+}
