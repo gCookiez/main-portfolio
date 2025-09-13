@@ -32,7 +32,6 @@ export const TextDisplay = (props: any) => {
     }, [])
     const {onKeyDown,} = props;
     const [buffer, updateBuffer] = useState()
-    const realFocus = document.querySelector('input.input-terminal');
 
     return (
         <div className='input-sub'>
