@@ -3,6 +3,10 @@
     word-wrap: anywhere;
 }
 
+.console-trail.error{
+    color: red;
+}
+
 
 
 .console-trail > a:link, .console-trail > a:visited, .console-trail > a:hover {

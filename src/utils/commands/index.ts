@@ -1,5 +1,5 @@
 import { AppendToHistory } from '../appendToHistory';
-import CommandList from './helpCommand.tsx'
+import {CommandList, SetupUrl} from './helpCommand.tsx'
 
 export const textparser = (text: string): string[] => {
 	const items = text.split(' ');
@@ -9,11 +9,15 @@ export const textparser = (text: string): string[] => {
 export const commandParser = (text: string[]): any => {
 	const rootProgram = text[0]
 	if (rootProgram === "linkedin") {
-		return AppendToHistory('https://www.linkedin.com/in/marcus-luis-s-gajo-29462b212/');
+		return SetupUrl('https://www.linkedin.com/in/marcus-luis-s-gajo-29462b212/');
 	}
 	
 	if (rootProgram === "github") {
-		return AppendToHistory('https://github.com/gCookiez');
+		return SetupUrl('https://github.com/gCookiez');
+	}
+
+	if (rootProgram === "portfolio") {
+		return SetupUrl('Coming Soon');
 	}
 
 	if (rootProgram === "help") {
@@ -21,7 +25,7 @@ export const commandParser = (text: string[]): any => {
 	}
 
 
-	return AppendToHistory('Invalid Command');
+	return AppendToHistory(`Error: ${rootProgram.length <= 20 ? text : `${rootProgram.substring(0, 20)}...`} is not a known command`, 'error');
 }
 
 export const initCommand = (text: string):any => {

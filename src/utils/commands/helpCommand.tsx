@@ -1,4 +1,6 @@
-export default function CommandList(): any {
+import { AppendToHistory } from "../appendToHistory";
+
+export const CommandList = (): any => {
     return (
         <div>
             <div>&nbsp;</div>
@@ -9,4 +11,12 @@ export default function CommandList(): any {
             <div>&nbsp;</div>
         </div>
     );
+}
+
+export const SetupUrl = (text: string) => {
+    const url = AppendToHistory(text);
+
+    return (
+        AppendToHistory(url)
+    )
 }
