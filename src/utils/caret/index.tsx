@@ -1,9 +1,12 @@
 import './index.css'
 export const caretFill = (start: number, end: number, word: string) => {
+    const nbsp = (<>&nbsp;</>)
+    word = word.replace(' ', '&nbsp;')
     const partition = word.substring(start, end + 1);
     const left = word.substring(0, start);
     const right = word.substring(end + 1, word.length);
-    const nbsp = (<>&nbsp;</>)
+    
+
     console.log("start:", start);
     console.log("start:", end);
     console.log("left:", left)
