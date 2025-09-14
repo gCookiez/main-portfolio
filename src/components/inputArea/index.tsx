@@ -1,12 +1,18 @@
 import { useRef, useEffect, useState, type RefObject } from 'react';
 import {initCommand } from '../../utils/commands';
 import './index.css'
+import { caretFill } from '../../utils/caret';
 export const TerminalInput = (props: any) => {
     const {pos, recall, invokeHistory, addToHistory, onKeyDown, updateBuffer, children, ref} = props
 
 
     function handleKeyDown(event: any) {
         console.log(event.key)
+
+        if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+            updateBuffer(event.target.value, [ref.current!.selectionStart, ref.current!.selectionEnd]);
+            return;
+        }
 
         if (event.key === 'ArrowDown') {
             event.preventDefault();
@@ -28,7 +34,7 @@ export const TerminalInput = (props: any) => {
             ref.current!.value = ""; 
             recall("reset");
             // // clear after enter
-            updateBuffer("");
+            updateBuffer("", [ref.current!.selectionStart, ref.current!.selectionEnd]);
             invokeHistory(value);
             return;
             
@@ -39,12 +45,12 @@ export const TerminalInput = (props: any) => {
     useEffect(() => {
         ref.current!.value = pos; 
         ref.current!.focus();
-        ref.current!.setSelectionRange(ref.current!.selectionStart, ref.current!.selectionStart);
-        updateBuffer(ref.current!.value);
+        // ref.current!.setSelectionRange(ref.current!.selectionStart, ref.current!.selectionStart);
+        updateBuffer(ref.current!.value, [ref.current!.selectionStart, ref.current!.selectionEnd]);
     }, [pos])
 
     function handleChange(event: any) {
-        updateBuffer(event.target.value);
+        updateBuffer(event.target.value, [ref.current!.selectionStart, ref.current!.selectionEnd]);
     }
 
     return (
@@ -60,14 +66,16 @@ export const TextDisplay = (props: any) => {
     (null);
 
     const {onKeyDown, addToHistory, invokeHistory, recall, pos} = props;
-    const [buffer, updateBuffer] = useState<String|null>(null);
+    const [buffer, updateBuffer] = useState<any|null>(null);
 
     useEffect(() => {
         inputRef.current?.focus();
         
     }, [])
 
-    
+    function caretChange(word: string, f:any) {
+        updateBuffer(caretFill(f[0], f[1], word));
+    }
 
     return (
         <div className='input-sub'>
@@ -77,7 +85,7 @@ export const TextDisplay = (props: any) => {
             invokeHistory={(e:any) => {invokeHistory(e)}} 
             recall = {(e:string) => {recall(e)}}
             ref={inputRef}  
-            updateBuffer={(e: String) => {updateBuffer(e)}} 
+            updateBuffer={(e:string, f:any) => {caretChange(e,f)}}
             onKeyDown={() => {onKeyDown()}}>
                 <div className="char-disp"> <span style={{whiteSpace:'nowrap'}}>marcus@main-portfolio&gt;&nbsp;</span>{buffer}</div>
             </TerminalInput>
