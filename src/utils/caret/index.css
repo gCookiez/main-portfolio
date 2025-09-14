@@ -1,0 +1,18 @@
+.caret-blink {
+	background-color: rgba(9,214,2,0);
+	animation: blink 1.1s infinite linear;
+}
+
+
+@keyframes blink {
+  0% {
+    background-color: rgba(9, 214, 2, 0)
+  }
+  50% {
+    background-color: rgba(9, 214, 2, 100)
+  }
+  100% {
+    background-color: rgba(9, 214, 2, 0)
+  }
+  
+}
