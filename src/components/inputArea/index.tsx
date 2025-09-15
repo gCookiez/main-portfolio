@@ -1,16 +1,41 @@
-import { useRef, useEffect, useState, type RefObject } from 'react';
+import { useRef, useEffect, useState} from 'react';
 import {initCommand } from '../../utils/commands';
 import './index.css'
 import { caretFill } from '../../utils/caret';
 export const TerminalInput = (props: any) => {
     const {pos, recall, invokeHistory, addToHistory, onKeyDown, updateBuffer, children, ref} = props
+    const [shift, holdCheck] = useState(false)
 
+    function handleKeyUp(event: any) {
+        console.log(event.key)
+        if (event.key === "Shift") {
+            holdCheck(false);
+            return;
+        }
+    }
 
     function handleKeyDown(event: any) {
         console.log(event.key)
 
-        if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
-            updateBuffer(event.target.value, [ref.current!.selectionStart, ref.current!.selectionEnd]);
+        if (event.key === "Shift") {
+            holdCheck(true);
+            return;
+        }
+
+        if (event.key === "ArrowLeft") {
+            if (shift) {
+                updateBuffer(event.target.value, [ref.current!.selectionStart - 1, ref.current!.selectionEnd]);
+                return;
+            }
+            updateBuffer(event.target.value, [ref.current!.selectionStart - 1, ref.current!.selectionEnd - 1]);
+            return;
+        }
+        if (event.key === "ArrowRight") {
+            if (shift) {
+                updateBuffer(event.target.value, [ref.current!.selectionStart, ref.current!.selectionEnd + 1]);
+                return
+            }
+            updateBuffer(event.target.value, [ref.current!.selectionStart + 1, ref.current!.selectionEnd + 1]);
             return;
         }
 
@@ -55,7 +80,7 @@ export const TerminalInput = (props: any) => {
 
     return (
         <div className="input-container">
-            <input ref={ref} style={{position:'absolute', left:'-99999px', opacity:0}} className="input-terminal" type='text' onKeyDown={handleKeyDown} onChange={handleChange} />
+            <input ref={ref} style={{position:'absolute', left:'-99999px', opacity:0}} className="input-terminal" type='text' onKeyUp={handleKeyUp} onKeyDown={handleKeyDown} onChange={handleChange} />
              {children}
         </div>
     )
@@ -67,6 +92,7 @@ export const TextDisplay = (props: any) => {
 
     const {onKeyDown, addToHistory, invokeHistory, recall, pos} = props;
     const [buffer, updateBuffer] = useState<any|null>(null);
+    const [caretpos, changecaret] = useState<any|null>([0,0]);
 
     useEffect(() => {
         inputRef.current?.focus();
@@ -74,8 +100,14 @@ export const TextDisplay = (props: any) => {
     }, [])
 
     function caretChange(word: string, f:any) {
-        updateBuffer(caretFill(f[0], f[1], word));
+        updateBuffer(word);
+        changecaret(() => [...f, word]);
+        // updateBuffer(caretFill(f[0], f[1], word));
     }
+
+    // useEffect(() => {
+    //     updateBuffer(() => caretFill(caretpos[0], caretpos[1], caretpos[2]))
+    // }, [caretpos])
 
     return (
         <div className='input-sub'>
@@ -87,7 +119,7 @@ export const TextDisplay = (props: any) => {
             ref={inputRef}  
             updateBuffer={(e:string, f:any) => {caretChange(e,f)}}
             onKeyDown={() => {onKeyDown()}}>
-                <div className="char-disp"> <span style={{whiteSpace:'nowrap'}}>marcus@main-portfolio&gt;&nbsp;</span>{buffer}</div>
+                <div className="char-disp"> <span style={{whiteSpace:'nowrap'}}>marcus@main-portfolio&gt;&nbsp;</span>{caretFill(caretpos[0], caretpos[1], buffer)}</div>
             </TerminalInput>
             
         </div>
