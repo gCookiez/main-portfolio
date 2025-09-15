@@ -9,6 +9,7 @@ export const CommandList = (): any => {
             <div> linkedin -- Displays user profile from linkedin </div>
             <div> github -- Displays user profile from github </div>
             <div> help -- Displays this exact page </div>
+            <div> clear -- Clears screen </div>
             <div> version -- Displays version number </div>
             <div>&nbsp;</div>
         </div>

@@ -24,6 +24,10 @@ export const commandParser = (text: string[]): any => {
 		return AppendToHistory( CommandList() )
 	}
 
+	if (rootProgram === 'clear') {
+		return false
+	}
+
 	if (rootProgram === "version") {
 		return AppendToHistory( Version() );
 	}

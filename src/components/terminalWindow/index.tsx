@@ -78,11 +78,13 @@ export const Terminal = () => {
                     pos={pos >= 0 ? hiddenhistory[pos] : null}
                     addToHistory={(e: any):any => {addHistory((h:any):any => {return [e, ...h]})}} 
                     invokeHistory={(e: any): any => {appendHistory((h:any):any => {return [e, ...h]})}} 
+                    clearHistory={() => {addHistory([])}}
                     onKeyDown={() => { 
                     addHistory((h:any):any => {
                         const item = AppendToHistory(getInput().value as String);
                         return [item, ...h];
                     })}}>
+                    
                     
                     </TextDisplay>
             </TerminalContainer>

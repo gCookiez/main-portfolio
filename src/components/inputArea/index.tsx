@@ -5,7 +5,7 @@ import { caretFill } from '../../utils/caret';
 
 
 export const TerminalInput = (props: any) => {
-    const {ctrl, ctrlCheck, shift, holdCheck, pos, recall, invokeHistory, addToHistory, onKeyDown, updateBuffer, children, ref} = props;
+    const {clearHistory, ctrl, ctrlCheck, shift, holdCheck, pos, recall, invokeHistory, addToHistory, onKeyDown, updateBuffer, children, ref} = props;
     const [shiftReleased, stateChange] = useState(false);
     const [ctrlReleased, ctrlChange] = useState(false);
  
@@ -108,8 +108,17 @@ export const TerminalInput = (props: any) => {
         if (event.key === 'Enter') {
             const value = ref.current?.value;
             onKeyDown();
-            if (typeof addToHistory == 'function')
-            addToHistory(initCommand(value));
+            if (typeof addToHistory == 'function'){
+                const command = initCommand(value);
+                if (command) {
+                     addToHistory(initCommand(value));
+                }
+                else {
+                    clearHistory();
+                }
+           
+            }
+
             ref.current!.value = ""; 
             recall("reset");
             // // clear after enter
@@ -144,7 +153,7 @@ export const TextDisplay = (props: any) => {
     const inputRef : RefObject<HTMLInputElement | null> = useRef<HTMLInputElement>
     (null);
 
-    const {onKeyDown, addToHistory, invokeHistory, recall, pos} = props;
+    const {clearHistory, onKeyDown, addToHistory, invokeHistory, recall, pos} = props;
     const [buffer, updateBuffer] = useState<any|null>(null);
     const [caretpos, changecaret] = useState<any|null>([0,0]);
     const [shift, holdCheck] = useState(false)
@@ -177,6 +186,7 @@ export const TextDisplay = (props: any) => {
             pos={pos}
             shift={shift}
             ctrl={ctrl}
+            clearHistory={() => clearHistory()}
             holdCheck={(e:any) => holdCheck(e)}
             ctrlCheck={(e:any) => ctrlCheck(e)}
             addToHistory={(e:any) => {addToHistory(e)}} 
