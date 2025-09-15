@@ -17,7 +17,6 @@
 @media only screen and (max-width: 900px) {
     .terminal-style { 
         width: 90%;
-        height: 90vh;
-        min-width: 450px;
+        /* min-width: 350px; */
     }
 }
