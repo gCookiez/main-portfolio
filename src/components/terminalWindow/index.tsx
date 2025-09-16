@@ -24,6 +24,8 @@ export const TerminalContainer = (props: any) => {
 export const Terminal = () => {
     const [holdhistory, addHistory] = useState([]);
     const [hiddenhistory, appendHistory] = useState([]);
+    const [name, changeName] = useState('marcus');
+    const [env, changeEnvName] = useState('main-portfolio');
     const [pos, changePos] = useState(-1);
     
     function recall(move: string) {

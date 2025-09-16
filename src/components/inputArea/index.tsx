@@ -143,7 +143,7 @@ export const TerminalInput = (props: any) => {
 
     return (
         <div className="input-container">
-            <input ref={ref} style={{position:'absolute', left:'-99999px', opacity:0}} className="input-terminal" type='text' onKeyUp={handleKeyUp} onKeyDown={handleKeyDown} onChange={handleChange} />
+            <input ref={ref} className="input-terminal" type='text' onKeyUp={handleKeyUp} onKeyDown={handleKeyDown} onChange={handleChange} />
              {children}
         </div>
     )
@@ -195,7 +195,8 @@ export const TextDisplay = (props: any) => {
             ref={inputRef}  
             updateBuffer={(e:string, f:any) => {caretChange(e,f)}}
             onKeyDown={() => {onKeyDown()}}>
-                <div className="char-disp"><span style={{whiteSpace:'nowrap'}}>marcus@main-portfolio&gt;&nbsp;</span>{buffer != undefined ? caretFill(caretpos[0], caretpos[1], buffer) : caretFill(0, 1, ' ')}</div>
+                {/* <div className="char-disp"><span style={{whiteSpace:'nowrap'}}>marcus@main-portfolio&gt;&nbsp;</span>{buffer != undefined ? caretFill(caretpos[0], caretpos[1], buffer) : caretFill(0, 1, ' ')}</div> */}
+                <div className="char-disp"><span style={{whiteSpace:'nowrap'}}>$ &gt;&nbsp;</span>{buffer != undefined ? caretFill(caretpos[0], caretpos[1], buffer) : caretFill(0, 1, ' ')}</div>
             </TerminalInput>
             
         </div>

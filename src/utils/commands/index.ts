@@ -1,4 +1,5 @@
 import { AppendToHistory } from '../appendToHistory';
+import { changeIdent } from '../profile-change/index.tsx';
 import {CommandList, SetupUrl, Version} from './helpCommand.tsx'
 
 export const textparser = (text: string): string[] => {
@@ -26,6 +27,17 @@ export const commandParser = (text: string[]): any => {
 
 	if (rootProgram === 'clear') {
 		return false
+	}
+
+	if (rootProgram === 'profile') {
+
+		var changes = changeIdent(text.slice(1));
+
+		if (!changes[0]) {
+			return AppendToHistory(`Error: ${changes[1]}` , 'error');
+		}
+
+
 	}
 
 	if (rootProgram === "version") {
