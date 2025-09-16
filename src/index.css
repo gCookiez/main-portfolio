@@ -6,7 +6,7 @@
 :root {
     background-color: rgb(20, 20, 20);
     --terminal-color: #09d602;
-    --terminal-font: monospace;
+    --terminal-font: "Bitstream Vera Sans Mono", Menlo, "Courier New", Courier, monospace;
     --terminal-font-size: 16px;
     font-family: var(--terminal-font);
     font-size: var(--terminal-font-size);
