@@ -5,7 +5,7 @@ import { caretFill } from '../../utils/caret';
 
 
 export const TerminalInput = (props: any) => {
-    const {clearHistory, ctrl, ctrlCheck, shift, holdCheck, pos, recall, invokeHistory, addToHistory, onKeyDown, updateBuffer, children, ref} = props;
+    const {changeProfile, clearHistory, ctrl, ctrlCheck, shift, holdCheck, pos, recall, invokeHistory, addToHistory, onKeyDown, updateBuffer, children, ref} = props;
     const [shiftReleased, stateChange] = useState(false);
     const [ctrlReleased, ctrlChange] = useState(false);
  
@@ -33,7 +33,6 @@ export const TerminalInput = (props: any) => {
     }, [ctrl])
 
     function handleKeyUp(event: any) {
-        console.log(event.key)
         if (event.key === "Shift") {
             holdCheck(false);
             return;
@@ -46,7 +45,7 @@ export const TerminalInput = (props: any) => {
     }
 
     function handleKeyDown(event: any) {
-        console.log(event.key)
+
 
         if (event.key === "Shift") {
             holdCheck(true);
@@ -110,8 +109,12 @@ export const TerminalInput = (props: any) => {
             onKeyDown();
             if (typeof addToHistory == 'function'){
                 const command = initCommand(value);
-                if (command) {
-                     addToHistory(initCommand(value));
+                if (typeof command == 'object' && command[0] === true) {
+                    changeProfile(command[1])
+                    addToHistory(command[2])
+                }
+                else if (command) {
+                    addToHistory(command);
                 }
                 else {
                     clearHistory();
@@ -153,7 +156,7 @@ export const TextDisplay = (props: any) => {
     const inputRef : RefObject<HTMLInputElement | null> = useRef<HTMLInputElement>
     (null);
 
-    const {clearHistory, onKeyDown, addToHistory, invokeHistory, recall, pos} = props;
+    const {changeProfile, clearHistory, onKeyDown, addToHistory, invokeHistory, recall, pos} = props;
     const [buffer, updateBuffer] = useState<any|null>(null);
     const [caretpos, changecaret] = useState<any|null>([0,0]);
     const [shift, holdCheck] = useState(false)
@@ -183,6 +186,7 @@ export const TextDisplay = (props: any) => {
     return (
         <div className='input-sub'>
             <TerminalInput 
+            changeProfile={(e:any) => {changeProfile(e)}}
             pos={pos}
             shift={shift}
             ctrl={ctrl}

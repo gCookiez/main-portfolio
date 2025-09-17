@@ -1,9 +1,10 @@
 import {TextDisplay } from "../inputArea"
 import { ConsoleTrail } from "../consoleTrail"
 import { AppendToHistory } from "../../utils/appendToHistory"
-import { useState, useEffect } from "react" 
+import { useState, useEffect, useMemo } from "react" 
 import { Version } from "../../utils/commands/helpCommand"
 import { getInput } from "../../utils/getInput"
+// import { changeEnv, changeUser} from '../../utils/profile-change'
 import './index.css'
 
 export const TerminalContainer = (props: any) => {
@@ -24,9 +25,20 @@ export const TerminalContainer = (props: any) => {
 export const Terminal = () => {
     const [holdhistory, addHistory] = useState([]);
     const [hiddenhistory, appendHistory] = useState([]);
-    const [name, changeName] = useState('marcus');
-    const [env, changeEnvName] = useState('main-portfolio');
     const [pos, changePos] = useState(-1);
+    const [currname, changeName] = useState('marcus');
+    const [currenv, changeEnvName] = useState('main-portfolio');
+
+    function changeProfile(params: any) {
+        if (params[0] == 'env') {
+            changeEnvName(params[1])
+        }
+
+        if (params[0] == 'user') {
+            changeName(params[1])
+        }
+
+    }
     
     function recall(move: string) {
 
@@ -75,7 +87,8 @@ export const Terminal = () => {
                 <ConsoleTrail>
                     {holdhistory.map((i) => (i))}
                 </ConsoleTrail>
-                <TextDisplay 
+                <TextDisplay
+                    changeProfile={(e:any) => {changeProfile(e)}}
                     recall={(e:string):any => recall(e)}
                     pos={pos >= 0 ? hiddenhistory[pos] : null}
                     addToHistory={(e: any):any => {addHistory((h:any):any => {return [e, ...h]})}} 
@@ -83,7 +96,7 @@ export const Terminal = () => {
                     clearHistory={() => {addHistory([])}}
                     onKeyDown={() => { 
                     addHistory((h:any):any => {
-                        const item = AppendToHistory(getInput().value as String);
+                        const item = AppendToHistory(`${currname}@${currenv}> ${getInput().value as String}`);
                         return [item, ...h];
                     })}}>
                     

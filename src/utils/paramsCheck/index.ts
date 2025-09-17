@@ -10,10 +10,10 @@ export const paramCheck = (params: string[], needed: number, options: string[]) 
         return [false, `Expected ${needed} params but got ${params.length} instead`];
     }
 
-    if (params.find(e => e === " ")!.length >= 1) {
-        console.warn('case 5')
-        return [false, `found EMPTY_STRING on params. `];
-    }
+    // if (params.find(e => e === " ") == undefined) {
+    //     console.warn('case 5')
+    //     return [false, `found EMPTY_STRING on params. `];
+    // }
 
     return [true, params];
 

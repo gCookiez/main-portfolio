@@ -31,12 +31,16 @@ export const commandParser = (text: string[]): any => {
 
 	if (rootProgram === 'profile') {
 
-		var changes = changeIdent(text.slice(1));
-
-		if (!changes[0]) {
-			return AppendToHistory(`Error: ${changes[1]}` , 'error');
+		const result = changeIdent(text.slice(1));
+		if (!result[0]) {
+			return AppendToHistory(`Error: ${result[1]}` , 'error');
 		}
 
+		return result;
+		
+		// if (!changes[0]) {
+		// 	
+		// }
 
 	}
 

@@ -1,6 +1,7 @@
 import './style.css'
 export const AppendToHistory = (text: any, mode?: any): any => {
     const regex = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g
+    
 
 
     if (!Boolean(text) && mode == null) {

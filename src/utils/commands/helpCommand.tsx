@@ -11,6 +11,8 @@ export const CommandList = (): any => {
             <div> help -- Displays this exact page </div>
             <div> clear -- Clears screen </div>
             <div> version -- Displays version number </div>
+            <div> profile &lt;[user | env]&gt; &lt;name&gt; -- changes name or env shown after </div>
+            <div>pressing enter for command</div>
             <div>&nbsp;</div>
         </div>
     );
@@ -21,6 +23,7 @@ export const Version = (): any => {
             <div>&nbsp;</div>
             <div> Mock Terminal v{__APP_VERSION__} </div>
             <div> Developed by Marcus Gajo</div>
+            <div> <strong>~~ Commands are deemed non-functional and only used for aesthetics ~~</strong></div>
             <div>&nbsp;</div>
         </div>
     );
