@@ -1,7 +1,7 @@
 import {TextDisplay } from "../inputArea"
 import { ConsoleTrail } from "../consoleTrail"
 import { AppendToHistory } from "../../utils/appendToHistory"
-import { useState, useEffect, useMemo } from "react" 
+import { useState, useEffect} from "react" 
 import { Version } from "../../utils/commands/helpCommand"
 import { getInput } from "../../utils/getInput"
 // import { changeEnv, changeUser} from '../../utils/profile-change'
