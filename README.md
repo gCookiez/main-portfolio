@@ -1,69 +1,66 @@
-# React + TypeScript + Vite
+# My Portfolio - Terminal-style
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+For a demo, try this [link](https://gcookiez.github.io/main-portfolio). It's still a working progress and expect bugs.
 
-Currently, two official plugins are available:
+This repository contains the source code for my pet project. I was inspired by the complicated yet robust nature of this invention that are called **CLIs** or **Command Line Interfaces.** Typically seen in Linux systems but are mainly available in any operating system available.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This invention is typically seen in computers. It bridges the human to computer language to simplify the instructions into a wrapper that takes commands by words and the computer will interpret it's meaning and execute the necessary functions needed.
 
-## Expanding the ESLint configuration
+## What made you do this webpage?
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+I was bored and needed to be productive without depending on someone elses orders. I need my own space to express myself
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## So... Why Terminal Style? Why not a webpage that has some flashy animations?
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+In terms of time and maintainability, it's would be expensive at the long term as i have to think about the moving parts and such. I'd have to provide my own assets for the page and it takes time. I'd need to practice my proficiency in React before I need to learn about art. 
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+The good thing about this webpage is that I don't need to maintain images to run the webpage because, by nature, it's strictly "characters" only. I only have to append new commands and script the expected actions?
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+I guess in spirit, Web Development is my "Art Medium" and VS Code is my "canvas". 
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+I've seen some webpages that have also done this type of style for their webpages and I thought that I could build one myself from scratch **for fun!**. So I did. 
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## This webpage is too plain and boring.
+Not my problem, dude.
+
+## Will it run Doom?
+
+No. Not yet? This is not a bash shell based. It's a bit too advanced for me yet. Give me time.
+
+## What does it have?
+
+Just the simple commands (Don't expect them to work 100% of the time)
+
+✅ Calls out the version number and details
+
+✅ Replaces the Host name and Machine name shown in the "terminal" (Just aesthetic, does not retain persistence.. yet)
+
+✅ Brings out my Linkedin and Github profiles
+
+✅ Brings out my Resume in a PDF file!
+
+✅ Displays Help Screen
+
+✅ Clears the screen!
+
+✅ Pressing up and down will recall your last commands called
+
+✅ **FLASHING CARET**
+
+❌ Highlighting Text using the mouse/finger (Still developing)
+
+✅ Selects all current string by using **Ctrl + A**
+
+✅ Error Checking! (Still a bit broken)
+
+✅ Screen Responsive!
+
+❌ Displays ASCII images of the things i like (Working on it)
+
+❌ and more.. (soon)
+
+
+
+
+
+
