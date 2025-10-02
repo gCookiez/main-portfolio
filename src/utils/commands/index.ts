@@ -18,7 +18,7 @@ export const commandParser = (text: string[]): any => {
 	}
 
 	if (rootProgram === "portfolio") {
-		return SetupUrl('Coming Soon');
+		return SetupUrl('/main-portfolio/portfolio.pdf');
 	}
 
 	if (rootProgram === "help") {

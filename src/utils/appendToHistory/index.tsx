@@ -23,7 +23,7 @@ export const AppendToHistory = (text: any, mode?: any): any => {
         )
     }
 
-    if (regex.test(String(text))) {
+    if (regex.test(String(text)) || mode == 'url') {
         return (<a target="_blank" href={String(text)}>
                     {text}
                 </a>)

@@ -11,6 +11,7 @@ export const CommandList = (): any => {
             <div> help -- Displays this exact page </div>
             <div> clear -- Clears screen </div>
             <div> version -- Displays version number </div>
+            <div> portfolio -- Displays link for developer's resume </div>
             <div> profile &lt;[user | env]&gt; &lt;name&gt; -- changes name or env shown after </div>
             <div>pressing enter for command</div>
             <div>&nbsp;</div>
@@ -30,7 +31,7 @@ export const Version = (): any => {
 }
 
 export const SetupUrl = (text: string) => {
-    const url = AppendToHistory(text);
+    const url = AppendToHistory(text, 'url');
 
     return (
         AppendToHistory(url)
