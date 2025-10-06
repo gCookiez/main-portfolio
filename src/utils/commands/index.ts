@@ -1,12 +1,15 @@
 import { AppendToHistory } from '../appendToHistory';
 import { changeIdent } from '../profile-change/index.tsx';
 import {CommandList, SetupUrl, Version} from './helpCommand.tsx'
+import {getDateTime} from './chrono.tsx'
 
 export const textparser = (text: string): string[] => {
 	const items = text.split(' ');
 	return items; 
 } 
 
+
+/* make this async for better callback on api calls*/
 export const commandParser = (text: string[]): any => {
 	const rootProgram = text[0]
 	if (rootProgram === "linkedin") {
@@ -42,6 +45,14 @@ export const commandParser = (text: string[]): any => {
 		// 	
 		// }
 
+	}
+
+	if (rootProgram === 'weather') {
+		return AppendToHistory('Coming soon');
+	}
+
+	if (rootProgram === 'datetime') {
+		return AppendToHistory(getDateTime())
 	}
 
 	if (rootProgram === "version") {

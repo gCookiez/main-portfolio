@@ -1,5 +1,15 @@
 export const paramCheck = (params: string[], needed: number, options: string[]) => {
-    if (params.filter(e => options.includes(e))!.length < 1) {
+    
+    const paramIter = params.filter((i,e) => {
+            if (options.includes(i) && e == 0) {
+                return i;
+            }
+
+            return false;
+    })
+
+
+    if (paramIter!.length < 1 ) {
         return [false, `${params[0]} is an invalid option.`]
     }
     
