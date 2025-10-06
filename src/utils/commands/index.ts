@@ -8,6 +8,12 @@ export const textparser = (text: string): string[] => {
 	return items; 
 } 
 
+export const commandParser_Proto =  async (text: string[]) : Promise<any> => {
+	return new Promise((resolve, reject) => {
+		
+
+	})
+}
 
 /* make this async for better callback on api calls*/
 export const commandParser = (text: string[]): any => {
@@ -41,9 +47,6 @@ export const commandParser = (text: string[]): any => {
 
 		return result;
 		
-		// if (!changes[0]) {
-		// 	
-		// }
 
 	}
 
