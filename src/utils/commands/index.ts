@@ -2,6 +2,7 @@ import { AppendToHistory } from '../appendToHistory';
 import { changeIdent } from '../profile-change/index.tsx';
 import { CommandList, SetupUrl, Version } from './helpCommand.tsx'
 import { getDateTime } from './chrono.tsx'
+import { weatherReport } from '../weather/index.tsx';
 // import { resolve } from 'path';
 
 export const textparser = (text: string): string[] => {
@@ -10,7 +11,7 @@ export const textparser = (text: string): string[] => {
 }
 
 export const commandParser_Proto = async (text: string[]): Promise<any> => {
-	return new Promise((resolve, reject) => {
+	return new Promise(async (resolve, reject) => {
 		const rootProgram = text[0]
 		if (rootProgram === "linkedin") {
 			resolve(SetupUrl('https://www.linkedin.com/in/marcus-luis-s-gajo-29462b212/'));
@@ -51,7 +52,9 @@ export const commandParser_Proto = async (text: string[]): Promise<any> => {
 		}
 
 		if (rootProgram === 'weather') {
-			resolve(AppendToHistory('Coming soon'));
+			weatherReport().then(report => {
+				resolve(report);
+			});
 			return;
 		}
 
