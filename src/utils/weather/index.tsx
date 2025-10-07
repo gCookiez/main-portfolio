@@ -19,7 +19,10 @@ export const weatherReport = async () : Promise <any> =>  {
 
         console.log(import.meta.env.VITE_WEATHER_API)
 
-        const data = fetchContent(props).then((data) => data.json()).then(result => result);
+        const data = fetchContent(props).then((data) => data.json()).then(result => result)
+                                        .catch(error => {
+                                            reject(error);
+                                        });
         const transformedData = transformData(await data)
         response(await transformedData);
 
@@ -52,7 +55,7 @@ export const LayoutData = (data: any): any => {
         <div>
             <div>&nbsp;</div>
             <div><img src={data.imgUrl} style={{width:'16px', aspectRatio:'1'}}/> {data.condition}</div>
-            <div>Location: {data.location}</div>
+            <div>Location: {data.location} (Only accurate based on ISP location)</div>
             <div>Time: {data.time}</div>
             <div>&nbsp;</div>
         </div>

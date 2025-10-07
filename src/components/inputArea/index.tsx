@@ -121,6 +121,8 @@ export const TerminalInput = (props: any) => {
                         clearHistory();
                     }
 
+                }).catch(error => {
+                    addToHistory(error);
                 }).finally(() => {
 
                     ref.current!.value = "";

@@ -70,7 +70,7 @@ export const commandParser_Proto = async (text: string[]): Promise<any> => {
 
 		let error = Boolean(text[0].trim()) ? rootProgram.length <= 20 ? text[0] : `${rootProgram.substring(0, 20)}...` : 'EMPTY_STRING';
 
-		resolve(AppendToHistory(`Error: ${error} is not a known command`, 'error'));
+		reject(AppendToHistory(`Error: ${error} is not a known command`, 'error'));
 
 	})
 }
@@ -132,8 +132,8 @@ export const initCommand = async (text: string): Promise<any> => {
 	return new Promise((resolve, reject) => {
 		const parsed: string[] = textparser(text);
 	// const response: any = commandParser(parsed);
-		const response: any = commandParser_Proto(parsed).then((item) => {return item});
-		resolve(response);
+		commandParser_Proto(parsed).then((item) => {resolve(item)})
+														.catch(error => reject(error));
 	})
 	
 	
