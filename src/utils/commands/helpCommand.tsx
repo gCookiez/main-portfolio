@@ -13,8 +13,9 @@ export const CommandList = (): any => {
             <div> clear -- Clears screen </div>
             <div> version -- Displays version number </div>
             <div> portfolio -- Displays link for developer's resume </div>
-            <div> profile &lt;[user | env]&gt; &lt;name&gt; -- changes name or env shown after </div>
-            <div>pressing enter for command</div>
+            <div> weather -- Displays current weather (only accurate to client's ISP source) </div>
+            <div> profile &lt;[user | env]&gt; &lt;name&gt; -- Changes name or env shown after </div>
+            <div> pressing enter for command</div>
             <div>&nbsp;</div>
         </div>
     );

@@ -1,4 +1,5 @@
 import { fetchContent } from '../api';
+import { SetupUrl } from '../commands/helpCommand';
 export const weatherReport = async () : Promise <any> =>  {
 
     return new Promise(async (response, reject) => {
@@ -51,12 +52,15 @@ export const transformData = (json: any): any => {
 } 
 
 export const LayoutData = (data: any): any => {
+    const source = SetupUrl('https://www.weatherapi.com');
     return (
         <div>
             <div>&nbsp;</div>
-            <div><img src={data.imgUrl} style={{width:'16px', aspectRatio:'1'}}/> {data.condition}</div>
+            <div> Weather data provided by {source}</div>
+            <div>&nbsp;</div>
+            <div><img src={data.imgUrl} style={{width:'18px', aspectRatio:'1', verticalAlign:'sub'}}/> {data.condition}</div>
             <div>Location: {data.location} (Only accurate based on ISP location)</div>
-            <div>Time: {data.time}</div>
+            <div>Time taken: {data.time}</div>
             <div>&nbsp;</div>
         </div>
     )

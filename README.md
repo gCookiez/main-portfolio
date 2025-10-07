@@ -47,6 +47,8 @@ Just the simple commands (Don't expect them to work 100% of the time)
 
 ✅ **FLASHING CARET**
 
+✅ Shows the weather according to your location!
+
 ❌ Highlighting Text using the mouse/finger (Still developing)
 
 ✅ Selects all current string by using **Ctrl + A**
