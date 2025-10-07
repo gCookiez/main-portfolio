@@ -47,7 +47,7 @@ Just the simple commands (Don't expect them to work 100% of the time)
 
 ✅ **FLASHING CARET**
 
-✅ Shows the weather according to your location!
+✅ Shows the weather according to your location! (Credits to [weatherapi.com](https://www.weatherapi.com))
 
 ❌ Highlighting Text using the mouse/finger (Still developing)
 
