@@ -8,7 +8,7 @@ export const CommandList = (): any => {
             <div>&nbsp;</div>
             <div> Available Commands </div>
             { Object.entries(roots.programs).map(([key, value]) => {
-                console.log(value.desc)
+                console.log(key)
                 return (<div> {value.name}{value.desc.slice(0, 2) == "??" ? value.desc.slice(2) : ` -- ${value.desc}`} </div>)
             })}
             <div>&nbsp;</div>
