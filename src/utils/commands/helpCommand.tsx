@@ -1,4 +1,5 @@
 import { AppendToHistory } from "../appendToHistory";
+import { roots } from "./commandType.ts";
 
 
 export const CommandList = (): any => {
@@ -6,16 +7,10 @@ export const CommandList = (): any => {
         <div>
             <div>&nbsp;</div>
             <div> Available Commands </div>
-            <div> datetime -- Displays current datetime from JavaScript Runtime</div>
-            <div> linkedin -- Displays user profile from linkedin </div>
-            <div> github -- Displays user profile from github </div>
-            <div> help -- Displays this exact page </div>
-            <div> clear -- Clears screen </div>
-            <div> version -- Displays version number </div>
-            <div> portfolio -- Displays link for developer's resume </div>
-            <div> weather -- Displays current weather (only accurate to client's ISP source) </div>
-            <div> profile &lt;[user | env]&gt; &lt;name&gt; -- Changes name or env shown after </div>
-            <div> pressing enter for command</div>
+            { Object.entries(roots.programs).map(([key, value]) => {
+                console.log(value.desc)
+                return (<div> {value.name}{value.desc.slice(0, 2) == "??" ? value.desc.slice(2) : ` -- ${value.desc}`} </div>)
+            })}
             <div>&nbsp;</div>
         </div>
     );
