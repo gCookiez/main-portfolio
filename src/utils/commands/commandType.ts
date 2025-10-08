@@ -3,6 +3,7 @@ import { changeIdent } from '../profile-change/index.tsx';
 import { CommandList, SetupUrl, Version } from './helpCommand.tsx'
 import { getDateTime } from './chrono.tsx'
 import { weatherReport } from '../weather/index.tsx';
+import { StackAscii, uma } from '../ascii/index.tsx'
 
 export interface rootPrograms {
     programs : rootProgram[];
@@ -124,6 +125,17 @@ export const roots: rootPrograms = {
                 }
             }
         },
+        {
+            name: 'ascii',
+            desc: 'Displays ascii art (experimental)',
+            executions: {
+                textBased: 'Coming soon',
+                call: () => {
+                    console.log(uma)
+                    return AppendToHistory(StackAscii(uma))
+                }
+            }
+        }
 
     ]
 }
