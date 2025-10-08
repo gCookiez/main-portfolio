@@ -20,12 +20,15 @@ export const weatherReport = async () : Promise <any> =>  {
 
         console.log(import.meta.env.VITE_WEATHER_API)
 
-        const data = fetchContent(props).then((data) => data.json()).then(result => result)
-                                        .catch(error => {
+        fetchContent(props).then((data) => data.json())
+                                        .then(result => {
+                                           const transformedData =  transformData(result);
+                                           response(transformedData);
+                                        })
+                                        .catch((error) => {
                                             reject(error);
                                         });
-        const transformedData = transformData(await data)
-        response(await transformedData);
+
 
 
     })

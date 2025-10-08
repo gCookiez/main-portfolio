@@ -107,6 +107,8 @@ export const TerminalInput = (props: any) => {
         if (event.key === 'Enter') {
             const value = ref.current?.value;
             onKeyDown();
+            ref.current!.value = "";
+            updateBuffer("", [ref.current!.selectionStart, ref.current!.selectionEnd]);
             if (typeof addToHistory == 'function') {
                 initCommand(value).then((command) => {
 
@@ -125,10 +127,9 @@ export const TerminalInput = (props: any) => {
                     addToHistory(error);
                 }).finally(() => {
 
-                    ref.current!.value = "";
+                    
                     recall("reset");
                     // // clear after enter
-                    updateBuffer("", [ref.current!.selectionStart, ref.current!.selectionEnd]);
                     invokeHistory(value);
                     return;
 

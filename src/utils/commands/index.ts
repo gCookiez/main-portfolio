@@ -54,6 +54,8 @@ export const commandParser_Proto = async (text: string[]): Promise<any> => {
 		if (rootProgram === 'weather') {
 			weatherReport().then(report => {
 				resolve(report);
+			}).catch(error => {
+				reject(AppendToHistory(`Error: ${error}`, 'error'));
 			});
 			return;
 		}
