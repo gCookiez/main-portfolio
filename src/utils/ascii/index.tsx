@@ -1,11 +1,11 @@
 export const StackAscii = (wordStack: string) => {
 	const stacks = wordStack.split('\n');
-	console.log(wordStack)
 
 	return (
 		<div style={{lineHeight: 0.45}}>
 		{
 			Object.entries(stacks).map(([key,value]) => {
+				key;
 				return (<div> {value} </div>)
 			})
 		}

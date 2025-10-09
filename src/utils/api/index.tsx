@@ -16,12 +16,12 @@ export const fetchContent = async (props: any): Promise<any> =>  {
 }
 
 
-export const asciiImage = async (link: any) : Promise<string> => {
-    return new Promise((resolve, reject) => {
-        //find api for making ascii art
-        // maybe create a lambda function to get list of uma horse img and convert them to ascii
-    })
-}
+// export const asciiImage = async (link: any) : Promise<string> => {
+//     return new Promise((resolve, reject) => {
+//         //find api for making ascii art
+//         // maybe create a lambda function to get list of uma horse img and convert them to ascii
+//     })
+// }
 
 
 export * from "./"
