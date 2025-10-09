@@ -3,7 +3,7 @@ import { changeIdent } from '../profile-change/index.tsx';
 import { CommandList, SetupUrl, Version } from './helpCommand.tsx'
 import { getDateTime } from './chrono.tsx'
 import { weatherReport } from '../weather/index.tsx';
-import { StackAscii, uma } from '../ascii/index.tsx'
+import { fetchRandomImage, StackAscii } from '../ascii/imageList.ts';
 
 export interface rootPrograms {
     programs : rootProgram[];
@@ -130,9 +130,21 @@ export const roots: rootPrograms = {
             desc: 'Displays ascii art (experimental)',
             executions: {
                 textBased: 'Coming soon',
-                call: () => {
-                    console.log(uma)
-                    return AppendToHistory(StackAscii(uma))
+                call: async () => {
+                    let caughterror: any;
+                    const result = fetchRandomImage().then(art => {
+                        return StackAscii(art)
+
+                    }).catch(error => caughterror = AppendToHistory(`Error: ${error}`, 'error'))
+                    
+                    if (await result != false) {
+                        return result;
+                    }
+
+                    return caughterror;
+                    // console.log(uma)
+                    // return AppendToHistory(StackAscii(uma))
+                    // return SetupUrl(fetchRandomImage())
                 }
             }
         }

@@ -3,7 +3,7 @@ export const StackAscii = (wordStack: string) => {
 	console.log(wordStack)
 
 	return (
-		<div>
+		<div style={{lineHeight: 0.45}}>
 		{
 			Object.entries(stacks).map(([key,value]) => {
 				return (<div> {value} </div>)
