@@ -10,7 +10,7 @@
     justify-items: flex-start;
     flex-direction: column;
     box-sizing: border-box;
-    justify-content: flex-end;
+    justify-content: space-evenly;
 }
 
 

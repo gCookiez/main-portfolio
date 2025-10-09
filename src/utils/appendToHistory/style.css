@@ -1,6 +1,8 @@
 .console-trail {
     color: var(--terminal-color);
     word-wrap: anywhere;
+    max-width: 98%;
+
 }
 
 .console-trail.error{

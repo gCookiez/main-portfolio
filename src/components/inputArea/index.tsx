@@ -5,7 +5,7 @@ import { caretFill } from '../../utils/caret';
 
 
 export const TerminalInput = (props: any) => {
-    const { changeProfile, clearHistory, ctrl, ctrlCheck, shift, holdCheck, pos, recall, invokeHistory, addToHistory, onKeyDown, updateBuffer, children, ref } = props;
+    const {toggleVisibility, changeProfile, clearHistory, ctrl, ctrlCheck, shift, holdCheck, pos, recall, invokeHistory, addToHistory, onKeyDown, updateBuffer, children, ref } = props;
     const [shiftReleased, stateChange] = useState(false);
     const [ctrlReleased, ctrlChange] = useState(false);
 
@@ -109,6 +109,7 @@ export const TerminalInput = (props: any) => {
             onKeyDown();
             ref.current!.value = "";
             updateBuffer("", [ref.current!.selectionStart, ref.current!.selectionEnd]);
+            toggleVisibility();
             if (typeof addToHistory == 'function') {
                 initCommand(value).then((command) => {
 
@@ -123,10 +124,12 @@ export const TerminalInput = (props: any) => {
                         clearHistory();
                     }
 
+                    toggleVisibility();
+
                 }).catch(error => {
                     addToHistory(error);
+                    toggleVisibility();
                 }).finally(() => {
-
                     
                     recall("reset");
                     // // clear after enter
@@ -171,6 +174,7 @@ export const TextDisplay = (props: any) => {
     const [caretpos, changecaret] = useState<any | null>([0, 0]);
     const [shift, holdCheck] = useState(false)
     const [ctrl, ctrlCheck] = useState(false)
+    const [visibility, switchVisibility] = useState(true)
 
     useEffect(() => {
         inputRef.current?.focus();
@@ -189,6 +193,22 @@ export const TextDisplay = (props: any) => {
         // updateBuffer(caretFill(f[0], f[1], word));
     }
 
+    function toggleVisibility() {
+        switchVisibility(vis => !vis);
+    }
+
+    function conditionalRender() {
+        if (!visibility)
+            return (<div> &nbsp; </div>)
+        return (
+            <>
+             <span style={{ whiteSpace: 'nowrap'}}>$ &gt;&nbsp;</span>{buffer != undefined ? caretFill(caretpos[0], caretpos[1], buffer) : caretFill(0, 1, ' ')}
+            </>
+        )
+
+    }
+
+
     // useEffect(() => {
     //     updateBuffer(() => caretFill(caretpos[0], caretpos[1], caretpos[2]))
     // }, [caretpos])
@@ -201,18 +221,19 @@ export const TextDisplay = (props: any) => {
                 shift={shift}
                 ctrl={ctrl}
                 clearHistory={() => clearHistory()}
-                holdCheck={(e: any) => holdCheck(e)}
-                ctrlCheck={(e: any) => ctrlCheck(e)}
-                addToHistory={(e: any) => { addToHistory(e) }}
-                invokeHistory={(e: any) => { invokeHistory(e) }}
-                recall={(e: string) => { recall(e) }}
+                holdCheck={(e: any) => visibility && holdCheck(e)}
+                ctrlCheck={(e: any) => visibility && ctrlCheck(e)}
+                addToHistory={(e: any) => { visibility && addToHistory(e) }}
+                invokeHistory={(e: any) => { visibility && invokeHistory(e) }}
+                recall={(e: string) => { visibility && recall(e) }}
                 ref={inputRef}
-                updateBuffer={(e: string, f: any) => { caretChange(e, f) }}
-                onKeyDown={() => { onKeyDown() }}>
-                {/* <div className="char-disp"><span style={{whiteSpace:'nowrap'}}>marcus@main-portfolio&gt;&nbsp;</span>{buffer != undefined ? caretFill(caretpos[0], caretpos[1], buffer) : caretFill(0, 1, ' ')}</div> */}
-                <div className="char-disp"><span style={{ whiteSpace: 'nowrap' }}>$ &gt;&nbsp;</span>{buffer != undefined ? caretFill(caretpos[0], caretpos[1], buffer) : caretFill(0, 1, ' ')}</div>
+                toggleVisibility={() => {toggleVisibility()}}
+                updateBuffer={(e: string, f: any) => { visibility && caretChange(e, f) }}
+                onKeyDown={() => {  visibility && onKeyDown() }}>
+                <div className="char-disp"> 
+                {conditionalRender()}
+                </div>
             </TerminalInput>
-
         </div>
     )
 }

@@ -110,7 +110,7 @@ export const fetchRandomImage = async (): Promise<any> => {
 
         fetchContent(props).then((data) => data.text())
         .then((result) => {
-            resolve(result)
+            resolve([result, 'https://umamusume.com/characters/', imgUrl])
         })
         .catch((error) => {
             reject(error)

@@ -85,9 +85,7 @@ export const Terminal = () => {
         <>
             <TerminalContainer>
                 <ConsoleTrail>
-                    {holdhistory.map((i) => (i))}
-                </ConsoleTrail>
-                <TextDisplay
+                    <TextDisplay
                     changeProfile={(e:any) => {changeProfile(e)}}
                     recall={(e:string):any => recall(e)}
                     pos={pos >= 0 ? hiddenhistory[pos] : null}
@@ -102,6 +100,9 @@ export const Terminal = () => {
                     
                     
                     </TextDisplay>
+                    {holdhistory.map((i) => (i))}
+                </ConsoleTrail>
+                
             </TerminalContainer>
         </>
 

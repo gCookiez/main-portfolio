@@ -1,14 +1,30 @@
-export const StackAscii = (wordStack: string) => {
-	const stacks = wordStack.split('\n');
+import { AppendToHistory } from '../appendToHistory';
+import { SetupUrl } from '../commands/helpCommand';
+
+export const StackAscii = (props: string[]) => {
+	const stacks = props[0].split('\n');
 
 	return (
-		<div style={{lineHeight: 0.45}}>
-		{
-			Object.entries(stacks).map(([key,value]) => {
-				key;
-				return (<div> {value} </div>)
-			})
-		}
+		<div>
+			<div style={{lineHeight: 0.8, display: 'block'}}>
+			{
+				Object.entries(stacks).map(([key,value]) => {
+					key;
+					return (<div> {value} </div>)
+				})
+			}
+			{<div> &nbsp; </div>}
+			</div>
+
+			<div>
+			{AppendToHistory(AppendToHistory('Source: '))}
+			{
+				Object.entries(props).map(([key,value]) => {
+					if (key == '0') return;
+					return (<div> {SetupUrl(value)}</div>)
+				})
+			}
+			</div>
 		</div>
 		)
 }
