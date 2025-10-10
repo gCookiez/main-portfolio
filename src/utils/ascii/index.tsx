@@ -1,12 +1,13 @@
 import { AppendToHistory } from '../appendToHistory';
 import { SetupUrl } from '../commands/helpCommand';
+import './index.css'
 
 export const StackAscii = (props: string[]) => {
 	const stacks = props[0].split('\n');
 
 	return (
 		<div>
-			<div style={{lineHeight: 0.8, display: 'block'}}>
+			<div className={'asciiStacks'} style={{lineHeight: 0.8, display: 'block'}}>
 			{
 				Object.entries(stacks).map(([key,value]) => {
 					key;

@@ -1,0 +1,11 @@
+@media (max-width: 1000px) and (hover: none) and (pointer: coarse) {
+    .asciiStacks {
+        font-size: 6px;
+    }
+}
+
+@media (max-width: 900px) {
+    .asciiStacks {
+        font-size: 6px;
+    }
+}
