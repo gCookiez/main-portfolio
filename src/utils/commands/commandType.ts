@@ -28,7 +28,7 @@ export const roots: rootPrograms = {
             executions: {
                 textBased: null,
                 call: () => {
-                    return SetupUrl('https://www.linkedin.com/in/marcus-luis-s-gajo-29462b212/')
+                    return SetupUrl('Link to LinkedIn', 'https://www.linkedin.com/in/marcus-luis-s-gajo-29462b212/')
                 }
             }
         },
@@ -38,8 +38,16 @@ export const roots: rootPrograms = {
             executions: {
                 textBased: null,
                 call: () => {
-                    return SetupUrl('https://github.com/gCookiez')
+                    return SetupUrl('Link to GitHub', 'https://github.com/gCookiez')
                 }
+            }
+        },
+        {
+            name: 'indeed',
+            desc: 'Displays user profile from Indeed (Currently Unavailable)',
+            executions: {
+                textBased: "Not Unavailable",
+                call: null
             }
         },
         {
@@ -48,7 +56,7 @@ export const roots: rootPrograms = {
             executions: {
                 textBased: null,
                 call: () => {
-                    return SetupUrl('/main-portfolio/portfolio.pdf')
+                    return SetupUrl('Portfolio.pdf', '/main-portfolio/portfolio.pdf')
                 }
             }
         },

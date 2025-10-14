@@ -1,5 +1,5 @@
 import './style.css'
-export const AppendToHistory = (text?: any, mode?: any): any => {
+export const AppendToHistory = (text?: any, mode?: any, url?: any): any => {
     const regex = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g
     
 
@@ -24,7 +24,7 @@ export const AppendToHistory = (text?: any, mode?: any): any => {
     }
 
     if (regex.test(String(text)) || mode == 'url') {
-        return (<a target="_blank" href={String(text)}>
+        return (<a target="_blank" href={url ? String(url) : String(text)}>
                     {text}
                 </a>)
     }

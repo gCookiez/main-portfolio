@@ -27,8 +27,8 @@ export const Version = (): any => {
     );
 }
 
-export const SetupUrl = (text: string) => {
-    const url = AppendToHistory(text, 'url');
+export const SetupUrl = (text: string, urlString? : string) => {
+    const url = AppendToHistory(text, 'url', urlString ? urlString : false);
 
     return (
         AppendToHistory(url)
