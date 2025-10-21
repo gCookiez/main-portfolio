@@ -1,9 +1,11 @@
-import {TextDisplay } from "../inputArea"
+import { TextDisplay } from "../inputArea"
 import { ConsoleTrail } from "../consoleTrail"
 import { AppendToHistory } from "../../utils/appendToHistory"
-import { useState, useEffect} from "react" 
+import { useState, useEffect } from "react"
 import { Version } from "../../utils/commands/helpCommand"
 import { getInput } from "../../utils/getInput"
+import { PreAnimation } from "../../utils/delay"
+import { TerminalOpen, TerminalAppear, HistoryAppear } from "../../utils/animations"
 // import { changeEnv, changeUser} from '../../utils/profile-change'
 import './index.css'
 
@@ -15,7 +17,7 @@ export const TerminalContainer = (props: any) => {
     }
 
     return (
-        <div className='terminal-style' onClick={()=> {maintainFocus()}}>
+        <div className='terminal-style' onClick={() => { maintainFocus() }}>
             {children}
         </div>
 
@@ -39,7 +41,7 @@ export const Terminal = () => {
         }
 
     }
-    
+
     function recall(move: string) {
 
         if (move == 'reset') {
@@ -50,23 +52,23 @@ export const Terminal = () => {
             return;
         }
 
-        if (move == '-' && !((hiddenhistory.length - 1) < pos + 1 )) {
-            changePos((e:any) => e + 1);
+        if (move == '-' && !((hiddenhistory.length - 1) < pos + 1)) {
+            changePos((e: any) => e + 1);
         }
 
         if (move == '+' && !(-1 >= pos)) {
-            changePos((e:any) => e - 1);
+            changePos((e: any) => e - 1);
         }
 
     }
 
-    
+
     useEffect(() => {
         if (holdhistory.length === 0) {
 
             setTimeout(() => {
                 addHistory((): any => [AppendToHistory(Version())])
-            }, 500)      
+            }, 500)
             return;
         }
         const input = getInput();
@@ -81,30 +83,37 @@ export const Terminal = () => {
     }, [pos])
 
 
-    return (
-        <>
-            <TerminalContainer>
-                <ConsoleTrail>
-                    <TextDisplay
-                    changeProfile={(e:any) => {changeProfile(e)}}
-                    recall={(e:string):any => recall(e)}
-                    pos={pos >= 0 ? hiddenhistory[pos] : null}
-                    addToHistory={(e: any):any => {addHistory((h:any):any => {return [e, ...h]})}} 
-                    invokeHistory={(e: any): any => {appendHistory((h:any):any => {return [e, ...h]})}} 
-                    clearHistory={() => {addHistory([])}}
-                    onKeyDown={() => { 
-                    addHistory((h:any):any => {
+   
+
+    function TextDisplayDelay() {
+        return (
+            <TextDisplay
+                changeProfile={(e: any) => { changeProfile(e) }}
+                recall={(e: string): any => recall(e)}
+                pos={pos >= 0 ? hiddenhistory[pos] : null}
+                addToHistory={(e: any): any => { addHistory((h: any): any => { return [e, ...h] }) }}
+                invokeHistory={(e: any): any => { appendHistory((h: any): any => { return [e, ...h] }) }}
+                clearHistory={() => { addHistory([]) }}
+                onKeyDown={() => {
+                    addHistory((h: any): any => {
                         const item = AppendToHistory(`${currname}@${currenv}> ${getInput().value as String}`);
                         return [item, ...h];
-                    })}}>
-                    
-                    
-                    </TextDisplay>
-                    {holdhistory.map((i) => (i))}
-                </ConsoleTrail>
-                
-            </TerminalContainer>
-        </>
+                    })
+                }}>
+            </TextDisplay>
+        )
+    }
+
+    return (
+        <PreAnimation Parent={TerminalContainer} animation={TerminalOpen} toggle={false}>
+            <PreAnimation Parent={ConsoleTrail} animation={HistoryAppear} toggle={true}>
+                <PreAnimation Parent={TextDisplayDelay} animation={TerminalAppear} toggle={true}>
+                </PreAnimation>
+                {holdhistory.map((i) => (i))}
+            </PreAnimation>
+        </PreAnimation>
+
+
 
     )
 }

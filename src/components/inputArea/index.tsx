@@ -2,12 +2,14 @@ import { useRef, useEffect, useState, type RefObject } from 'react';
 import { initCommand } from '../../utils/commands';
 import './index.css'
 import { caretFill } from '../../utils/caret';
+import { ErrorShake } from '../../utils/animations';
 
 
 export const TerminalInput = (props: any) => {
     const {toggleVisibility, changeProfile, clearHistory, ctrl, ctrlCheck, shift, holdCheck, pos, recall, invokeHistory, addToHistory, onKeyDown, updateBuffer, children, ref } = props;
     const [shiftReleased, stateChange] = useState(false);
     const [ctrlReleased, ctrlChange] = useState(false);
+    
 
 
     useEffect(() => {
@@ -105,14 +107,15 @@ export const TerminalInput = (props: any) => {
         }
 
         if (event.key === 'Enter') {
+            const callAnim = ErrorShake();
             const value = ref.current?.value;
             onKeyDown();
             ref.current!.value = "";
             updateBuffer("", [ref.current!.selectionStart, ref.current!.selectionEnd]);
             toggleVisibility();
             if (typeof addToHistory == 'function') {
+                
                 initCommand(value).then((command) => {
-
                     if (typeof command == 'object' && command[0] === true) {
                         changeProfile(command[1])
                         addToHistory(command[2])
@@ -128,6 +131,7 @@ export const TerminalInput = (props: any) => {
 
                 }).catch(error => {
                     addToHistory(error);
+                    callAnim();
                     toggleVisibility();
                 }).finally(() => {
                     
