@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState, type RefObject, useMemo} from 'react';
+import { useRef, useEffect, useState, type RefObject} from 'react';
 import { initCommand } from '../../utils/commands';
 import './index.css'
 import { caretFill } from '../../utils/caret';

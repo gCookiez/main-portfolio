@@ -1,7 +1,6 @@
 import { gsap } from 'gsap'
 import { useState, useEffect} from 'react';
 import { useGSAP } from '@gsap/react'
-import { TerminalContainer } from '../../components/terminalWindow';
 
 gsap.registerPlugin(useGSAP)
 
