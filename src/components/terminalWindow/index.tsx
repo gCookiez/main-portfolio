@@ -30,6 +30,7 @@ export const Terminal = () => {
     const [pos, changePos] = useState(-1);
     const [currname, changeName] = useState('marcus');
     const [currenv, changeEnvName] = useState('main-portfolio');
+    const [inputVisibility, switchVisibility] = useState<Boolean | null>(true)
 
     function changeProfile(params: any) {
         if (params[0] == 'env') {
@@ -94,6 +95,8 @@ export const Terminal = () => {
                 addToHistory={(e: any): any => { addHistory((h: any): any => { return [e, ...h] }) }}
                 invokeHistory={(e: any): any => { appendHistory((h: any): any => { return [e, ...h] }) }}
                 clearHistory={() => { addHistory([]) }}
+                inputVisibility = {inputVisibility}
+                changeVisibility = {(bool: Boolean) => switchVisibility(bool)}
                 onKeyDown={() => {
                     addHistory((h: any): any => {
                         const item = AppendToHistory(`${currname}@${currenv}> ${getInput().value as String}`);

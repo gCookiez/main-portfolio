@@ -1,15 +1,32 @@
-import { useRef, useEffect, useState, type RefObject } from 'react';
+import { useRef, useEffect, useState, type RefObject, useMemo} from 'react';
 import { initCommand } from '../../utils/commands';
 import './index.css'
 import { caretFill } from '../../utils/caret';
 import { ErrorShake } from '../../utils/animations';
 
 
+
+export const ConditionalRender = (props: any): any => {
+    const { vis, children } = props;
+    const [visibility, changeVisibility] = useState(true);
+
+    useEffect(() => {
+        console.log(vis)
+        changeVisibility(vis);
+    }, [vis])
+
+        if (!visibility)
+        return (<div>&nbsp;</div>)
+
+        return (<>{children}</>)
+}
+
+
 export const TerminalInput = (props: any) => {
-    const {toggleVisibility, changeProfile, clearHistory, ctrl, ctrlCheck, shift, holdCheck, pos, recall, invokeHistory, addToHistory, onKeyDown, updateBuffer, children, ref } = props;
+    const {visStat, visInputStateChange, changeProfile, clearHistory, ctrl, ctrlCheck, shift, holdCheck, pos, recall, invokeHistory, addToHistory, onKeyDown, updateBuffer, children, ref } = props;
     const [shiftReleased, stateChange] = useState(false);
     const [ctrlReleased, ctrlChange] = useState(false);
-    
+
 
 
     useEffect(() => {
@@ -47,7 +64,7 @@ export const TerminalInput = (props: any) => {
     }
 
     async function handleKeyDown(event: any) {
-
+        if (!visStat) return;
 
         if (event.key === "Shift") {
             holdCheck(true);
@@ -107,35 +124,40 @@ export const TerminalInput = (props: any) => {
         }
 
         if (event.key === 'Enter') {
+            visInputStateChange(false);
             const callAnim = ErrorShake();
             const value = ref.current?.value;
             onKeyDown();
             ref.current!.value = "";
             updateBuffer("", [ref.current!.selectionStart, ref.current!.selectionEnd]);
-            toggleVisibility();
+            
             if (typeof addToHistory == 'function') {
-                
                 initCommand(value).then((command) => {
                     if (typeof command == 'object' && command[0] === true) {
                         changeProfile(command[1])
                         addToHistory(command[2])
                     }
                     else if (command) {
+                        
                         addToHistory(command);
+                        
                     }
                     else {
                         clearHistory();
                     }
-
-                    toggleVisibility();
+                    visInputStateChange(true);
+                    
 
                 }).catch(error => {
+
                     addToHistory(error);
                     callAnim();
-                    toggleVisibility();
+                    visInputStateChange(true);
+
                 }).finally(() => {
-                    
+
                     recall("reset");
+
                     // // clear after enter
                     invokeHistory(value);
                     return;
@@ -169,16 +191,17 @@ export const TerminalInput = (props: any) => {
     )
 }
 
+
+
 export const TextDisplay = (props: any) => {
     const inputRef: RefObject<HTMLInputElement | null> = useRef<HTMLInputElement>
         (null);
-
-    const { changeProfile, clearHistory, onKeyDown, addToHistory, invokeHistory, recall, pos } = props;
+    const { changeVisibility, inputVisibility, changeProfile, clearHistory, onKeyDown, addToHistory, invokeHistory, recall, pos } = props;
     const [buffer, updateBuffer] = useState<any | null>(null);
     const [caretpos, changecaret] = useState<any | null>([0, 0]);
     const [shift, holdCheck] = useState(false)
     const [ctrl, ctrlCheck] = useState(false)
-    const [visibility, switchVisibility] = useState(true)
+    
 
     useEffect(() => {
         inputRef.current?.focus();
@@ -193,49 +216,30 @@ export const TextDisplay = (props: any) => {
     function caretChange(word: string, f: any) {
         updateBuffer(word);
         changecaret(() => [...f, word]);
-        // updateBuffer(word);
-        // updateBuffer(caretFill(f[0], f[1], word));
     }
-
-    function toggleVisibility() {
-        switchVisibility(vis => !vis);
-    }
-
-    function conditionalRender() {
-        if (!visibility)
-            return (<div> &nbsp; </div>)
-        return (
-            <>
-             <span style={{ whiteSpace: 'nowrap'}}>$ &gt;&nbsp;</span>{buffer != undefined ? caretFill(caretpos[0], caretpos[1], buffer) : caretFill(0, 1, ' ')}
-            </>
-        )
-
-    }
-
-
-    // useEffect(() => {
-    //     updateBuffer(() => caretFill(caretpos[0], caretpos[1], caretpos[2]))
-    // }, [caretpos])
 
     return (
         <div className='input-sub'>
             <TerminalInput
                 changeProfile={(e: any) => { changeProfile(e) }}
+                visInputStateChange={(bool: Boolean) => { changeVisibility(bool)}}
+                visStat = {inputVisibility}
                 pos={pos}
                 shift={shift}
                 ctrl={ctrl}
                 clearHistory={() => clearHistory()}
-                holdCheck={(e: any) => visibility && holdCheck(e)}
-                ctrlCheck={(e: any) => visibility && ctrlCheck(e)}
-                addToHistory={(e: any) => { visibility && addToHistory(e) }}
-                invokeHistory={(e: any) => { visibility && invokeHistory(e) }}
-                recall={(e: string) => { visibility && recall(e) }}
+                holdCheck={(e: any) => holdCheck(e)}
+                ctrlCheck={(e: any) => ctrlCheck(e)}
+                addToHistory={(e: any) => {addToHistory(e) }}
+                invokeHistory={(e: any) => {invokeHistory(e) }}
+                recall={(e: string) => {recall(e) }}
                 ref={inputRef}
-                toggleVisibility={() => {toggleVisibility()}}
-                updateBuffer={(e: string, f: any) => { visibility && caretChange(e, f) }}
-                onKeyDown={() => {  visibility && onKeyDown() }}>
-                <div className="char-disp"> 
-                {conditionalRender()}
+                updateBuffer={(e: string, f: any) => {caretChange(e, f); }}
+                onKeyDown={() => {onKeyDown()}}>
+                <div className="char-disp">
+                    <ConditionalRender vis={inputVisibility}>
+                        <span style={{ whiteSpace: 'nowrap' }}>$ &gt;&nbsp;</span>{buffer != undefined ? caretFill(caretpos[0], caretpos[1], buffer) : caretFill(0, 1, ' ')}
+                    </ConditionalRender>
                 </div>
             </TerminalInput>
         </div>

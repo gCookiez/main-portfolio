@@ -23,6 +23,7 @@ export const Delayed = ({ children, toggle = false}: DelayProps) => {
 export const PreAnimation = (props: any) => {
     const {children, Parent, animation, toggle} = props;
     const [display, toggleDisplay] = useState(false)
+    const {properties} = Parent;
 
     useGSAP(() => {
         animation((bool: any) => {
@@ -35,7 +36,7 @@ export const PreAnimation = (props: any) => {
 
     return (
         <>
-            <Parent>
+            <Parent props={properties}>
                 <Delayed toggle={toggle ? toggle: display}>
                     {children}
                 </Delayed>
