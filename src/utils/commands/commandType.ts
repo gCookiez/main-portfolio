@@ -4,6 +4,8 @@ import { CommandList, SetupUrl, Version } from './helpCommand.tsx'
 import { getDateTime } from './chrono.tsx'
 import { weatherReport } from '../weather/index.tsx';
 import { fetchRandomImage, StackAscii } from '../ascii/imageList.ts';
+import { callAnimation } from '../animations/index.tsx';
+import { ErrorShake } from '../animations/index.tsx';
 
 export interface rootPrograms {
     programs : rootProgram[];
@@ -87,10 +89,30 @@ export const roots: rootPrograms = {
                 textBased: null,
                 call: (param: any) => {
                     const result = changeIdent(param);
+                    const err = ErrorShake();
                     if (!result[0]) {
+                        err();
                         return AppendToHistory(`Error: ${result[1]}`, 'error');
                     }
                     return (result);
+                }
+            }
+        },
+        {
+            name: 'animate',
+            desc: "?? <[shake | fly]> -- Animates Terminal Window",
+            executions: {
+                textBased: null,
+                call: (param: any) => {
+                    const result = callAnimation(param);
+                    const err = ErrorShake();
+                    if (!result[0]) {
+                        err();
+                        return AppendToHistory(`Error: ${result[1]}`, 'error');
+                        
+                    }
+                    console.log(result)
+                    return (result[2]);
                 }
             }
         },

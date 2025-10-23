@@ -15,8 +15,23 @@ export const commandParser_Proto = async (text: string[]): Promise<any> => {
 
 		if (program.length == 1) {
 			console.warn('help')
-			let result = program[0].executions.call ? program[0].executions.call(text.slice(1)) : AppendToHistory(program[0].executions.textBased); 
-			resolve(result);
+			let result = program[0].executions.call ? program[0].executions.call: AppendToHistory(program[0].executions.textBased); 
+			var output;
+			if (typeof result == 'function') {
+				try {
+					output = result(text.slice(1))
+					resolve(output);
+				}
+				catch (err){
+					console.warn('resp', err)
+					reject(err);
+				}
+			}
+			else {
+				resolve(result);
+			}
+			
+			
 			return; 
 		}
 

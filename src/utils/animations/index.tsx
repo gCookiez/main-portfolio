@@ -1,4 +1,18 @@
 import { gsap } from "gsap/gsap-core"
+import { paramCheck } from '../paramsCheck'
+import { AppendToHistory } from '../appendToHistory';
+
+export const callAnimation = (params: string[]) => {
+    //create or compile an object of animations and return the method in the future    
+    const options = ['shake', 'fly'];
+    const checkParams : any[] = paramCheck(params, 1, options)
+    if (checkParams[0]) {
+        const success = AppendToHistory(`${checkParams[1][0]} animated`);
+        checkParams.push(success);
+    }
+    return checkParams;
+    
+}
 
 export const TerminalOpen = (callback: Function) => {
     let timeline = gsap.timeline()
