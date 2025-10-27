@@ -20,7 +20,7 @@
     resize: none;
     overflow: none;
     position:absolute;
-    left:-99999px;
+    left:-99999999999px;
     opacity:0;
     
 }

@@ -11,7 +11,6 @@ export const ConditionalRender = (props: any): any => {
     const [visibility, changeVisibility] = useState(true);
 
     useEffect(() => {
-        console.log(vis)
         changeVisibility(vis);
     }, [vis])
 
@@ -23,9 +22,10 @@ export const ConditionalRender = (props: any): any => {
 
 
 export const TerminalInput = (props: any) => {
-    const { changeDir, visStat, visInputStateChange, changeProfile, clearHistory, ctrl, ctrlCheck, shift, holdCheck, pos, recall, invokeHistory, addToHistory, onKeyDown, updateBuffer, children, ref } = props;
+    const { mouseDown, changeDir, visStat, visInputStateChange, changeProfile, clearHistory, ctrl, ctrlCheck, shift, holdCheck, pos, recall, invokeHistory, addToHistory, onKeyDown, updateBuffer, children, ref } = props;
     const [shiftReleased, stateChange] = useState(false);
     const [ctrlReleased, ctrlChange] = useState(false);
+    const [lastDir, dirChange] = useState<null | String>(null);
 
 
 
@@ -52,9 +52,8 @@ export const TerminalInput = (props: any) => {
     }, [ctrl])
 
     useEffect(() => {
-        console.log("in Input: ", changeDir);
-        caretChanger(ref.current!.value, changeDir)
-    }, [changeDir])
+        caretChanger(ref.current!.value, changeDir, mouseDown)
+    }, [changeDir, mouseDown])
 
     function handleKeyUp(event: any) {
         if (event.key === "Shift") {
@@ -69,26 +68,28 @@ export const TerminalInput = (props: any) => {
     }
 
     function caretChanger(value: any, dir: any, mouseDown?: any) {
-        if (dir == "left" || dir < 0) {
-             updateBuffer(value, [ref.current!.selectionStart > 0 ? ref.current!.selectionStart - 1 : ref.current!.selectionStart, ref.current!.selectionEnd]);
+        if ((dir == "left" || (dir < 0 && (dir % 8 == 0) )) && ref.current!.selectionStart >= 0 ) {
+            console.log(ref.current!.selectionStart)
+            ref.current!.setSelectionRange(ref.current!.selectionStart > 0 ? ref.current!.selectionStart - 1 : ref.current!.selectionStart, ref.current!.selectionEnd)
+            updateBuffer(value, [ref.current!.selectionStart, ref.current!.selectionEnd]);
+            dirChange("left")
             return;
         }
 
-        if (dir == "right" || dir > 0) {
-            updateBuffer(value, [ref.current!.selectionStart, ref.current!.selectionEnd + 1]);
+        if (dir == "right" || (dir > 0 && (dir % 8 == 0))) {
+            ref.current!.setSelectionRange(ref.current!.selectionStart, ref.current!.selectionEnd + 1)
+            updateBuffer(value, [ref.current!.selectionStart, ref.current!.selectionEnd]);
+            dirChange("right")
             return;
         }
-        // if (shift) {
-        //     updateBuffer(event.target.value, [ref.current!.selectionStart > 0 ? ref.current!.selectionStart - 1 : ref.current!.selectionStart, ref.current!.selectionEnd]);
-        //     return;
-        // }
-        // if ((shiftReleased || ctrlReleased) && (ref.current!.selectionEnd - ref.current!.selectionStart != 0)) {
-        //     updateBuffer(event.target.value, [ref.current!.selectionStart, ref.current!.selectionStart]);
-        //     stateChange(false)
-        //     ctrlChange(false)
-        //     return;
-        // }
-        // updateBuffer(event.target.value, [ref.current!.selectionStart > 0 ? ref.current!.selectionStart - 1 : ref.current!.selectionStart, ref.current!.selectionStart > 0 ? ref.current!.selectionEnd - 1 : ref.current!.selectionStart]);
+
+        if ((dir == 0 && mouseDown == true)) {
+            var condition = lastDir == "left" ? ref.current!.selectionStart : ref.current!.selectionEnd;
+            ref.current!.setSelectionRange(condition, condition);
+            updateBuffer(value, [ref.current!.selectionStart, ref.current!.selectionEnd]);
+            dirChange(null);
+            return;
+        }
         return;
     }
 
@@ -113,7 +114,6 @@ export const TerminalInput = (props: any) => {
         if (event.key === "ArrowLeft") {
             if (shift) {
                 caretChanger(event.target.value, "left");
-                // updateBuffer(event.target.value, [ref.current!.selectionStart > 0 ? ref.current!.selectionStart - 1 : ref.current!.selectionStart, ref.current!.selectionEnd]);
                 return;
             }
             if ((shiftReleased || ctrlReleased) && (ref.current!.selectionEnd - ref.current!.selectionStart != 0)) {
@@ -127,7 +127,7 @@ export const TerminalInput = (props: any) => {
         }
         if (event.key === "ArrowRight") {
             if (shift) {
-                updateBuffer(event.target.value, [ref.current!.selectionStart, ref.current!.selectionEnd + 1]);
+                caretChanger(event.target.value, "right");
                 return
             }
             if ((shiftReleased || ctrlReleased) && (ref.current!.selectionEnd - ref.current!.selectionStart != 0)) {
@@ -212,24 +212,31 @@ export const TerminalInput = (props: any) => {
         updateBuffer(event.target.value, [ref.current!.selectionStart, ref.current!.selectionEnd]);
     }
 
+    function checkPos(e:any) {
+        console.log("input-container: ", e)
+    }
+
     return (
-        <div className="input-container">
-            <input ref={ref} className="input-terminal" type='text' onKeyUp={handleKeyUp} onKeyDown={handleKeyDown} onChange={handleChange} />
+        <> 
+        <div className="input-container" onMouseDown={checkPos}>
+             <input ref={ref} className="input-terminal" type='text' onKeyUp={handleKeyUp} onKeyDown={handleKeyDown} onChange={handleChange} />
             {children}
         </div>
+        </>
     )
 }
 
 export const TextDrag = (props: any) => {
-    const { dirChange, children } = props;
+    const { mouseDownCond, dirChange, children } = props;
     const [mouseDown, changeMouseDown] = useState(false);
 
     const [delta, setDelta] = useState(0)
 
-    const [dir, setDir] = useState<null|String>(null);
+    const [dir, setDir] = useState<null | String>(null);
 
     useEffect(() => {
         console.log("mousedown: ", mouseDown)
+        mouseDownCond(mouseDown);
     }, [mouseDown])
 
     useEffect(() => {
@@ -237,15 +244,10 @@ export const TextDrag = (props: any) => {
         console.log("delta: ", delta)
     }, [delta])
 
-
-
-    // useEffect(() => {
-    //     console.log("setDragging: ", mouseDrag)
-    // }, [mouseDrag])
-
     function mouseDownEvent(e: any) {
         if (e.type == "mousedown") {
             changeMouseDown(true);
+
         }
 
         if (e.type == "mouseup") {
@@ -258,22 +260,17 @@ export const TextDrag = (props: any) => {
     function mouseDragEvent(e: any) {
         if (mouseDown && e.type == "mousemove") {
             setDelta(lastDelta => {
-                if ((e.movementX == 1 && (lastDelta < 0)) 
+                if ((e.movementX == 1 && (lastDelta < 0))
                     || (e.movementX == -1 && (lastDelta > 0))) {
                     return 0
                 }
 
-                    return lastDelta + e.movementX
+                return lastDelta + e.movementX
 
 
             })
         }
     }
-
-
-
-
-
 
     return (
         <div onMouseDown={mouseDownEvent}
@@ -297,7 +294,8 @@ export const TextDisplay = (props: any) => {
     const [caretpos, changecaret] = useState<any | null>([0, 0]);
     const [shift, holdCheck] = useState(false)
     const [ctrl, ctrlCheck] = useState(false)
-    const [dir, setDir] = useState<null| number>(null);
+    const [dir, setDir] = useState<null | number>(null);
+    const [mouseDown, setMouseDown] = useState<null | Boolean>(false);
 
 
     useEffect(() => {
@@ -316,10 +314,11 @@ export const TextDisplay = (props: any) => {
     }
 
     return (
-        <TextDrag dirChange={(e: any) => { setDir(e) }}>
+        <TextDrag dirChange={(e: any) => { setDir(e) }} mouseDownCond={(e: any) => { setMouseDown(e) }}>
             <div className='input-sub'>
 
                 <TerminalInput
+                    mouseDown={mouseDown}
                     changeDir={dir}
                     changeProfile={(e: any) => { changeProfile(e) }}
                     visInputStateChange={(bool: Boolean) => { changeVisibility(bool) }}
