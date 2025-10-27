@@ -33,6 +33,8 @@ export const PreAnimation = (props: any) => {
         })
     })
 
+    
+
     return (
         <>
             <Parent props={properties}>

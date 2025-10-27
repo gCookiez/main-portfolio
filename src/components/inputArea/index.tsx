@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState, type RefObject} from 'react';
+import { useRef, useEffect, useState, type RefObject } from 'react';
 import { initCommand } from '../../utils/commands';
 import './index.css'
 import { caretFill } from '../../utils/caret';
@@ -15,15 +15,15 @@ export const ConditionalRender = (props: any): any => {
         changeVisibility(vis);
     }, [vis])
 
-        if (!visibility)
+    if (!visibility)
         return (<div>&nbsp;</div>)
 
-        return (<>{children}</>)
+    return (<>{children}</>)
 }
 
 
 export const TerminalInput = (props: any) => {
-    const {visStat, visInputStateChange, changeProfile, clearHistory, ctrl, ctrlCheck, shift, holdCheck, pos, recall, invokeHistory, addToHistory, onKeyDown, updateBuffer, children, ref } = props;
+    const { changeDir, visStat, visInputStateChange, changeProfile, clearHistory, ctrl, ctrlCheck, shift, holdCheck, pos, recall, invokeHistory, addToHistory, onKeyDown, updateBuffer, children, ref } = props;
     const [shiftReleased, stateChange] = useState(false);
     const [ctrlReleased, ctrlChange] = useState(false);
 
@@ -51,6 +51,11 @@ export const TerminalInput = (props: any) => {
 
     }, [ctrl])
 
+    useEffect(() => {
+        console.log("in Input: ", changeDir);
+        caretChanger(ref.current!.value, changeDir)
+    }, [changeDir])
+
     function handleKeyUp(event: any) {
         if (event.key === "Shift") {
             holdCheck(false);
@@ -61,6 +66,30 @@ export const TerminalInput = (props: any) => {
             ctrlCheck(false);
             return;
         }
+    }
+
+    function caretChanger(value: any, dir: any, mouseDown?: any) {
+        if (dir == "left" || dir < 0) {
+             updateBuffer(value, [ref.current!.selectionStart > 0 ? ref.current!.selectionStart - 1 : ref.current!.selectionStart, ref.current!.selectionEnd]);
+            return;
+        }
+
+        if (dir == "right" || dir > 0) {
+            updateBuffer(value, [ref.current!.selectionStart, ref.current!.selectionEnd + 1]);
+            return;
+        }
+        // if (shift) {
+        //     updateBuffer(event.target.value, [ref.current!.selectionStart > 0 ? ref.current!.selectionStart - 1 : ref.current!.selectionStart, ref.current!.selectionEnd]);
+        //     return;
+        // }
+        // if ((shiftReleased || ctrlReleased) && (ref.current!.selectionEnd - ref.current!.selectionStart != 0)) {
+        //     updateBuffer(event.target.value, [ref.current!.selectionStart, ref.current!.selectionStart]);
+        //     stateChange(false)
+        //     ctrlChange(false)
+        //     return;
+        // }
+        // updateBuffer(event.target.value, [ref.current!.selectionStart > 0 ? ref.current!.selectionStart - 1 : ref.current!.selectionStart, ref.current!.selectionStart > 0 ? ref.current!.selectionEnd - 1 : ref.current!.selectionStart]);
+        return;
     }
 
     async function handleKeyDown(event: any) {
@@ -81,10 +110,10 @@ export const TerminalInput = (props: any) => {
             return
         }
 
-
         if (event.key === "ArrowLeft") {
             if (shift) {
-                updateBuffer(event.target.value, [ref.current!.selectionStart > 0 ? ref.current!.selectionStart - 1 : ref.current!.selectionStart, ref.current!.selectionEnd]);
+                caretChanger(event.target.value, "left");
+                // updateBuffer(event.target.value, [ref.current!.selectionStart > 0 ? ref.current!.selectionStart - 1 : ref.current!.selectionStart, ref.current!.selectionEnd]);
                 return;
             }
             if ((shiftReleased || ctrlReleased) && (ref.current!.selectionEnd - ref.current!.selectionStart != 0)) {
@@ -130,7 +159,7 @@ export const TerminalInput = (props: any) => {
             onKeyDown();
             ref.current!.value = "";
             updateBuffer("", [ref.current!.selectionStart, ref.current!.selectionEnd]);
-            
+
             if (typeof addToHistory == 'function') {
                 initCommand(value).then((command) => {
                     if (typeof command == 'object' && command[0] === true) {
@@ -138,15 +167,15 @@ export const TerminalInput = (props: any) => {
                         addToHistory(command[2])
                     }
                     else if (command) {
-                        
+
                         addToHistory(command);
-                        
+
                     }
                     else {
                         clearHistory();
                     }
                     visInputStateChange(true);
-                    
+
 
                 }).catch(error => {
 
@@ -191,6 +220,73 @@ export const TerminalInput = (props: any) => {
     )
 }
 
+export const TextDrag = (props: any) => {
+    const { dirChange, children } = props;
+    const [mouseDown, changeMouseDown] = useState(false);
+
+    const [delta, setDelta] = useState(0)
+
+    const [dir, setDir] = useState<null|String>(null);
+
+    useEffect(() => {
+        console.log("mousedown: ", mouseDown)
+    }, [mouseDown])
+
+    useEffect(() => {
+        dirChange(delta)
+        console.log("delta: ", delta)
+    }, [delta])
+
+
+
+    // useEffect(() => {
+    //     console.log("setDragging: ", mouseDrag)
+    // }, [mouseDrag])
+
+    function mouseDownEvent(e: any) {
+        if (e.type == "mousedown") {
+            changeMouseDown(true);
+        }
+
+        if (e.type == "mouseup") {
+            changeMouseDown(false);
+            setDelta(0);
+        }
+    }
+
+
+    function mouseDragEvent(e: any) {
+        if (mouseDown && e.type == "mousemove") {
+            setDelta(lastDelta => {
+                if ((e.movementX == 1 && (lastDelta < 0)) 
+                    || (e.movementX == -1 && (lastDelta > 0))) {
+                    return 0
+                }
+
+                    return lastDelta + e.movementX
+
+
+            })
+        }
+    }
+
+
+
+
+
+
+    return (
+        <div onMouseDown={mouseDownEvent}
+            onMouseUp={mouseDownEvent}
+            onMouseMove={mouseDragEvent}
+        >
+            {children}
+        </div>
+    )
+
+
+}
+
 
 
 export const TextDisplay = (props: any) => {
@@ -201,7 +297,8 @@ export const TextDisplay = (props: any) => {
     const [caretpos, changecaret] = useState<any | null>([0, 0]);
     const [shift, holdCheck] = useState(false)
     const [ctrl, ctrlCheck] = useState(false)
-    
+    const [dir, setDir] = useState<null| number>(null);
+
 
     useEffect(() => {
         inputRef.current?.focus();
@@ -219,30 +316,34 @@ export const TextDisplay = (props: any) => {
     }
 
     return (
-        <div className='input-sub'>
-            <TerminalInput
-                changeProfile={(e: any) => { changeProfile(e) }}
-                visInputStateChange={(bool: Boolean) => { changeVisibility(bool)}}
-                visStat = {inputVisibility}
-                pos={pos}
-                shift={shift}
-                ctrl={ctrl}
-                clearHistory={() => clearHistory()}
-                holdCheck={(e: any) => holdCheck(e)}
-                ctrlCheck={(e: any) => ctrlCheck(e)}
-                addToHistory={(e: any) => {addToHistory(e) }}
-                invokeHistory={(e: any) => {invokeHistory(e) }}
-                recall={(e: string) => {recall(e) }}
-                ref={inputRef}
-                updateBuffer={(e: string, f: any) => {caretChange(e, f); }}
-                onKeyDown={() => {onKeyDown()}}>
-                <div className="char-disp">
-                    <ConditionalRender vis={inputVisibility}>
-                        <span style={{ whiteSpace: 'nowrap' }}>$ &gt;&nbsp;</span>{buffer != undefined ? caretFill(caretpos[0], caretpos[1], buffer) : caretFill(0, 1, ' ')}
-                    </ConditionalRender>
-                </div>
-            </TerminalInput>
-        </div>
+        <TextDrag dirChange={(e: any) => { setDir(e) }}>
+            <div className='input-sub'>
+
+                <TerminalInput
+                    changeDir={dir}
+                    changeProfile={(e: any) => { changeProfile(e) }}
+                    visInputStateChange={(bool: Boolean) => { changeVisibility(bool) }}
+                    visStat={inputVisibility}
+                    pos={pos}
+                    shift={shift}
+                    ctrl={ctrl}
+                    clearHistory={() => clearHistory()}
+                    holdCheck={(e: any) => holdCheck(e)}
+                    ctrlCheck={(e: any) => ctrlCheck(e)}
+                    addToHistory={(e: any) => { addToHistory(e) }}
+                    invokeHistory={(e: any) => { invokeHistory(e) }}
+                    recall={(e: string) => { recall(e) }}
+                    ref={inputRef}
+                    updateBuffer={(e: string, f: any) => { caretChange(e, f); }}
+                    onKeyDown={() => { onKeyDown() }}>
+                    <div className="char-disp noselect">
+                        <ConditionalRender vis={inputVisibility}>
+                            <span style={{ whiteSpace: 'nowrap' }}>$ &gt;&nbsp;</span>{buffer != undefined ? caretFill(caretpos[0], caretpos[1], buffer) : caretFill(0, 1, ' ')}
+                        </ConditionalRender>
+                    </div>
+                </TerminalInput>
+            </div>
+        </TextDrag>
     )
 }
 

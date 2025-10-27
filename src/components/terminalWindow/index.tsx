@@ -5,8 +5,7 @@ import { useState, useEffect } from "react"
 import { Version } from "../../utils/commands/helpCommand"
 import { getInput } from "../../utils/getInput"
 import { PreAnimation } from "../../utils/delay"
-import { TerminalOpen, TerminalAppear, HistoryAppear } from "../../utils/animations"
-// import { changeEnv, changeUser} from '../../utils/profile-change'
+import { TerminalOpen, HistoryAppear } from "../../utils/animations"
 import './index.css'
 
 export const TerminalContainer = (props: any) => {
@@ -84,34 +83,27 @@ export const Terminal = () => {
     }, [pos])
 
 
-   
 
-    function TextDisplayDelay() {
-        return (
-            <TextDisplay
-                changeProfile={(e: any) => { changeProfile(e) }}
-                recall={(e: string): any => recall(e)}
-                pos={pos >= 0 ? hiddenhistory[pos] : null}
-                addToHistory={(e: any): any => { addHistory((h: any): any => { return [e, ...h] }) }}
-                invokeHistory={(e: any): any => { appendHistory((h: any): any => { return [e, ...h] }) }}
-                clearHistory={() => { addHistory([]) }}
-                inputVisibility = {inputVisibility}
-                changeVisibility = {(bool: Boolean) => switchVisibility(bool)}
-                onKeyDown={() => {
-                    addHistory((h: any): any => {
-                        const item = AppendToHistory(`${currname}@${currenv}> ${getInput().value as String}`);
-                        return [item, ...h];
-                    })
-                }}>
-            </TextDisplay>
-        )
-    }
 
     return (
         <PreAnimation Parent={TerminalContainer} animation={TerminalOpen} toggle={false}>
             <PreAnimation Parent={ConsoleTrail} animation={HistoryAppear} toggle={true}>
-                <PreAnimation Parent={TextDisplayDelay} animation={TerminalAppear} toggle={true}>
-                </PreAnimation>
+                <TextDisplay
+                    changeProfile={(e: any) => { changeProfile(e) }}
+                    recall={(e: string): any => recall(e)}
+                    pos={pos >= 0 ? hiddenhistory[pos] : null}
+                    addToHistory={(e: any): any => { addHistory((h: any): any => { return [e, ...h] }) }}
+                    invokeHistory={(e: any): any => { appendHistory((h: any): any => { return [e, ...h] }) }}
+                    clearHistory={() => { addHistory([]) }}
+                    inputVisibility={inputVisibility}
+                    changeVisibility={(bool: Boolean) => switchVisibility(bool)}
+                    onKeyDown={() => {
+                        addHistory((h: any): any => {
+                            const item = AppendToHistory(`${currname}@${currenv}> ${getInput().value as String}`);
+                            return [item, ...h];
+                        })
+                    }}>
+                </TextDisplay>
                 {holdhistory.map((i) => (i))}
             </PreAnimation>
         </PreAnimation>
