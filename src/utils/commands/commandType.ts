@@ -53,12 +53,32 @@ export const roots: rootPrograms = {
             }
         },
         {
-            name: 'portfolio',
+            name: 'resume',
             desc: "Displays link for developer's resume",
             executions: {
                 textBased: null,
                 call: () => {
-                    return SetupUrl('Portfolio.pdf', '/main-portfolio/portfolio.pdf')
+                    return SetupUrl('Click Link => Resume.pdf', '/main-portfolio/portfolio.pdf')
+                }
+            }
+        },
+        {
+            name: 'portfolio',
+            desc: "Displays link for developer's portfolio",
+            executions: {
+                textBased: null,
+                call: () => {
+                    return SetupUrl('Click Link => visual.pdf', '/main-portfolio/visual.pdf')
+                }
+            }
+        },
+        {
+            name: 'funplace',
+            desc: "My other page where I showcase my hobbies and stuff.",
+            executions: {
+                textBased: null,
+                call: () => {
+                    return SetupUrl('Click Link => neocities', 'https://crispypata.neocities.org')
                 }
             }
         },
@@ -98,24 +118,24 @@ export const roots: rootPrograms = {
                 }
             }
         },
-        {
-            name: 'animate',
-            desc: "?? <[shake | fly]> -- Animates Terminal Window",
-            executions: {
-                textBased: null,
-                call: (param: any) => {
-                    const result = callAnimation(param);
-                    const err = ErrorShake();
-                    if (!result[0]) {
-                        err();
-                        return AppendToHistory(`Error: ${result[1]}`, 'error');
+        // {
+        //     name: 'animate',
+        //     desc: "?? <[shake | fly]> -- Animates Terminal Window",
+        //     executions: {
+        //         textBased: null,
+        //         call: (param: any) => {
+        //             const result = callAnimation(param);
+        //             const err = ErrorShake();
+        //             if (!result[0]) {
+        //                 err();
+        //                 return AppendToHistory(`Error: ${result[1]}`, 'error');
                         
-                    }
-                    console.log(result)
-                    return (result[2]);
-                }
-            }
-        },
+        //             }
+        //             console.log(result)
+        //             return (result[2]);
+        //         }
+        //     }
+        // },
         {
             name: 'weather',
             desc: "Displays current weather (only accurate to client's ISP source)",

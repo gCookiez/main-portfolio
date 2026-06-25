@@ -22,6 +22,7 @@ export const Version = (): any => {
             <div> Mock Terminal v{__APP_VERSION__} </div>
             <div> Developed by Marcus Gajo</div>
             <div> <strong>~~ Commands are deemed non-functional and only used for aesthetics ~~</strong></div>
+            <div> Type 'help' for more commands</div>
             <div>&nbsp;</div>
         </div>
     );
